@@ -1,13 +1,29 @@
 """
 Backend API Tests for Makia Capital Website
-Tests: Health check, Lead CRUD operations
+Tests: Health check, Lead CRUD operations (with authentication)
+Updated to use JWT authentication for protected endpoints
 """
 import pytest
 import requests
 import os
 import uuid
 
-BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', 'https://website-builder-1263.preview.emergentagent.com').rstrip('/')
+BASE_URL = os.environ.get('REACT_APP_BACKEND_URL', '').rstrip('/')
+
+# Admin credentials
+ADMIN_EMAIL = "admin@makiacapital.com"
+ADMIN_PASSWORD = "Makia@2026"
+
+
+def get_auth_token():
+    """Get authentication token for protected endpoints"""
+    response = requests.post(
+        f"{BASE_URL}/api/auth/login",
+        json={"email": ADMIN_EMAIL, "password": ADMIN_PASSWORD}
+    )
+    if response.status_code == 200:
+        return response.json()["token"]
+    return None
 
 
 class TestHealthEndpoint:
@@ -33,7 +49,15 @@ class TestHealthEndpoint:
 
 
 class TestLeadsCRUD:
-    """Lead management CRUD tests"""
+    """Lead management CRUD tests with authentication"""
+    
+    @pytest.fixture
+    def auth_headers(self):
+        """Get authentication headers"""
+        token = get_auth_token()
+        if not token:
+            pytest.skip("Could not get auth token")
+        return {"Authorization": f"Bearer {token}"}
     
     @pytest.fixture
     def test_lead_data(self):
@@ -52,8 +76,9 @@ class TestLeadsCRUD:
             "services": ["Equity Fundraise", "IPO Advisory"]
         }
 
-    def test_create_lead(self, test_lead_data):
-        """Test POST /api/leads creates a new lead"""
+    def test_create_lead(self, test_lead_data, auth_headers):
+        """Test POST /api/leads creates a new lead (public endpoint)"""
+        # POST /api/leads is public - no auth needed
         response = requests.post(f"{BASE_URL}/api/leads", json=test_lead_data)
         assert response.status_code == 200, f"Expected 200, got {response.status_code}: {response.text}"
         
@@ -66,19 +91,19 @@ class TestLeadsCRUD:
         assert data["status"] == "new"
         print(f"✓ Lead created successfully: {data['id']}")
         
-        # Store lead_id for cleanup
-        return data["id"]
+        # Cleanup with auth
+        requests.delete(f"{BASE_URL}/api/leads/{data['id']}", headers=auth_headers)
 
-    def test_create_lead_and_verify_persistence(self, test_lead_data):
+    def test_create_lead_and_verify_persistence(self, test_lead_data, auth_headers):
         """Test Create → GET verification pattern"""
-        # CREATE
+        # CREATE (public)
         create_response = requests.post(f"{BASE_URL}/api/leads", json=test_lead_data)
         assert create_response.status_code == 200
         created_lead = create_response.json()
         lead_id = created_lead["id"]
         
-        # GET to verify persistence
-        get_response = requests.get(f"{BASE_URL}/api/leads/{lead_id}")
+        # GET to verify persistence (requires auth)
+        get_response = requests.get(f"{BASE_URL}/api/leads/{lead_id}", headers=auth_headers)
         assert get_response.status_code == 200
         
         fetched_lead = get_response.json()
@@ -87,26 +112,26 @@ class TestLeadsCRUD:
         print(f"✓ Lead persistence verified: {lead_id}")
         
         # Cleanup
-        requests.delete(f"{BASE_URL}/api/leads/{lead_id}")
+        requests.delete(f"{BASE_URL}/api/leads/{lead_id}", headers=auth_headers)
 
-    def test_get_leads_list(self):
-        """Test GET /api/leads returns list of leads"""
-        response = requests.get(f"{BASE_URL}/api/leads")
+    def test_get_leads_list(self, auth_headers):
+        """Test GET /api/leads returns list of leads (requires auth)"""
+        response = requests.get(f"{BASE_URL}/api/leads", headers=auth_headers)
         assert response.status_code == 200
         
         data = response.json()
         assert isinstance(data, list)
         print(f"✓ Leads list retrieved: {len(data)} leads")
 
-    def test_get_lead_by_id(self, test_lead_data):
+    def test_get_lead_by_id(self, test_lead_data, auth_headers):
         """Test GET /api/leads/{id} returns specific lead"""
-        # First create a lead
+        # First create a lead (public)
         create_response = requests.post(f"{BASE_URL}/api/leads", json=test_lead_data)
         assert create_response.status_code == 200
         lead_id = create_response.json()["id"]
         
-        # Get the lead
-        response = requests.get(f"{BASE_URL}/api/leads/{lead_id}")
+        # Get the lead (requires auth)
+        response = requests.get(f"{BASE_URL}/api/leads/{lead_id}", headers=auth_headers)
         assert response.status_code == 200
         
         data = response.json()
@@ -115,25 +140,25 @@ class TestLeadsCRUD:
         print(f"✓ Lead retrieved by ID: {lead_id}")
         
         # Cleanup
-        requests.delete(f"{BASE_URL}/api/leads/{lead_id}")
+        requests.delete(f"{BASE_URL}/api/leads/{lead_id}", headers=auth_headers)
 
-    def test_get_nonexistent_lead(self):
+    def test_get_nonexistent_lead(self, auth_headers):
         """Test GET /api/leads/{id} returns 404 for non-existent lead"""
         fake_id = "nonexistent-lead-id-12345"
-        response = requests.get(f"{BASE_URL}/api/leads/{fake_id}")
+        response = requests.get(f"{BASE_URL}/api/leads/{fake_id}", headers=auth_headers)
         assert response.status_code == 404
         print(f"✓ 404 returned for non-existent lead")
 
-    def test_update_lead_status(self, test_lead_data):
+    def test_update_lead_status(self, test_lead_data, auth_headers):
         """Test PATCH /api/leads/{id} updates lead status"""
-        # Create a lead
+        # Create a lead (public)
         create_response = requests.post(f"{BASE_URL}/api/leads", json=test_lead_data)
         assert create_response.status_code == 200
         lead_id = create_response.json()["id"]
         
-        # Update status
+        # Update status (requires auth)
         update_data = {"status": "reviewed", "notes": "Test note"}
-        response = requests.patch(f"{BASE_URL}/api/leads/{lead_id}", json=update_data)
+        response = requests.patch(f"{BASE_URL}/api/leads/{lead_id}", json=update_data, headers=auth_headers)
         assert response.status_code == 200
         
         data = response.json()
@@ -142,32 +167,32 @@ class TestLeadsCRUD:
         print(f"✓ Lead status updated: {lead_id}")
         
         # Verify persistence
-        get_response = requests.get(f"{BASE_URL}/api/leads/{lead_id}")
+        get_response = requests.get(f"{BASE_URL}/api/leads/{lead_id}", headers=auth_headers)
         assert get_response.json()["status"] == "reviewed"
         
         # Cleanup
-        requests.delete(f"{BASE_URL}/api/leads/{lead_id}")
+        requests.delete(f"{BASE_URL}/api/leads/{lead_id}", headers=auth_headers)
 
-    def test_delete_lead(self, test_lead_data):
+    def test_delete_lead(self, test_lead_data, auth_headers):
         """Test DELETE /api/leads/{id} removes lead"""
-        # Create a lead
+        # Create a lead (public)
         create_response = requests.post(f"{BASE_URL}/api/leads", json=test_lead_data)
         assert create_response.status_code == 200
         lead_id = create_response.json()["id"]
         
-        # Delete the lead
-        response = requests.delete(f"{BASE_URL}/api/leads/{lead_id}")
+        # Delete the lead (requires auth)
+        response = requests.delete(f"{BASE_URL}/api/leads/{lead_id}", headers=auth_headers)
         assert response.status_code == 200
         
         # Verify deletion
-        get_response = requests.get(f"{BASE_URL}/api/leads/{lead_id}")
+        get_response = requests.get(f"{BASE_URL}/api/leads/{lead_id}", headers=auth_headers)
         assert get_response.status_code == 404
         print(f"✓ Lead deleted successfully: {lead_id}")
 
-    def test_delete_nonexistent_lead(self):
+    def test_delete_nonexistent_lead(self, auth_headers):
         """Test DELETE /api/leads/{id} returns 404 for non-existent lead"""
         fake_id = "nonexistent-lead-id-67890"
-        response = requests.delete(f"{BASE_URL}/api/leads/{fake_id}")
+        response = requests.delete(f"{BASE_URL}/api/leads/{fake_id}", headers=auth_headers)
         assert response.status_code == 404
         print(f"✓ 404 returned for deleting non-existent lead")
 
@@ -175,7 +200,15 @@ class TestLeadsCRUD:
 class TestLeadValidation:
     """Lead validation tests"""
     
-    def test_create_lead_minimal_fields(self):
+    @pytest.fixture
+    def auth_headers(self):
+        """Get authentication headers"""
+        token = get_auth_token()
+        if not token:
+            pytest.skip("Could not get auth token")
+        return {"Authorization": f"Bearer {token}"}
+    
+    def test_create_lead_minimal_fields(self, auth_headers):
         """Test creating lead with only required fields"""
         minimal_data = {
             "company": "TEST_Minimal_Company",
@@ -192,9 +225,9 @@ class TestLeadValidation:
         print(f"✓ Minimal lead created: {data['id']}")
         
         # Cleanup
-        requests.delete(f"{BASE_URL}/api/leads/{data['id']}")
+        requests.delete(f"{BASE_URL}/api/leads/{data['id']}", headers=auth_headers)
 
-    def test_create_lead_with_questions_mode(self):
+    def test_create_lead_with_questions_mode(self, auth_headers):
         """Test creating lead with questions pitch mode"""
         lead_data = {
             "company": "TEST_Questions_Company",
@@ -217,15 +250,23 @@ class TestLeadValidation:
         print(f"✓ Questions mode lead created: {data['id']}")
         
         # Cleanup
-        requests.delete(f"{BASE_URL}/api/leads/{data['id']}")
+        requests.delete(f"{BASE_URL}/api/leads/{data['id']}", headers=auth_headers)
 
 
 class TestLeadsStats:
     """Lead statistics endpoint tests"""
     
-    def test_get_leads_stats(self):
-        """Test GET /api/leads/stats/summary returns statistics"""
-        response = requests.get(f"{BASE_URL}/api/leads/stats/summary")
+    @pytest.fixture
+    def auth_headers(self):
+        """Get authentication headers"""
+        token = get_auth_token()
+        if not token:
+            pytest.skip("Could not get auth token")
+        return {"Authorization": f"Bearer {token}"}
+    
+    def test_get_leads_stats(self, auth_headers):
+        """Test GET /api/leads/stats/summary returns statistics (requires auth)"""
+        response = requests.get(f"{BASE_URL}/api/leads/stats/summary", headers=auth_headers)
         assert response.status_code == 200
         
         data = response.json()
@@ -236,18 +277,6 @@ class TestLeadsStats:
         assert "qualified" in data
         assert "rejected" in data
         print(f"✓ Stats retrieved: {data}")
-
-
-# Cleanup function to remove test data
-def cleanup_test_leads():
-    """Remove all TEST_ prefixed leads"""
-    response = requests.get(f"{BASE_URL}/api/leads")
-    if response.status_code == 200:
-        leads = response.json()
-        for lead in leads:
-            if lead.get("company", "").startswith("TEST_") or lead.get("name", "").startswith("TEST_"):
-                requests.delete(f"{BASE_URL}/api/leads/{lead['id']}")
-                print(f"Cleaned up test lead: {lead['id']}")
 
 
 if __name__ == "__main__":

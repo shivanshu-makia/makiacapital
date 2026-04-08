@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { POSTS, TYPE_COLORS } from "../data/insightsData";
 
 const LOGO_WHITE = "/images/logo-white.png";
 const LOGO_DARK = "/images/makia_hero.png";
@@ -131,7 +132,7 @@ export default function MakiaBlueGoldV3() {
   useEffect(() => { const h=()=>setSolid(window.scrollY>80); window.addEventListener("scroll",h,{passive:true}); return()=>window.removeEventListener("scroll",h); }, []);
   useEffect(() => { const t=setInterval(()=>setAT(p=>(p+1)%4),6000); return()=>clearInterval(t); }, []);
 
-  const navLinks = [{ l:"About Us", h:"/about" },{ l:"Services", h:"#services" },{ l:"Knowledge Sharing", h:"#knowledge" },{ l:"Career", h:"#career" }];
+  const navLinks = [{ l:"About Us", h:"/about" },{ l:"Services", h:"#services" },{ l:"Insights", h:"/insights" },{ l:"Career", h:"#career" }];
 
   const offerings = [
     { icon:"\u039B", t:"SEBI Registered AIF", d:"INR 250 Cr AIF to invest in high-conviction, growth-stage investments across India\u2019s most promising sectors." },
@@ -374,21 +375,19 @@ export default function MakiaBlueGoldV3() {
             <h2 className="st" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, marginBottom:"16px" }}>Sharing What We <span style={{ color:C.gold, fontStyle:"italic" }}>Learn</span></h2>
             <p style={{ fontSize:"15px", lineHeight:1.7, color:C.light, maxWidth:"600px", fontWeight:300, marginBottom:"48px" }}>From our weekly Capital Markets webinars reaching 1.5 lakh+ professionals to long-form writing on investing — we believe knowledge shared freely compounds the most.</p>
           </Anim>
-          {[
-            { tag:"Webinar Series", title:"Weekly Capital Markets Webinar", desc:"250+ episodes. Free, live sessions on IPO markets, macro themes, and investment frameworks.", cta:"Watch Episodes" },
-            { tag:"Capital Letters \u2014 Vol. 01", title:"Tips Can\u2019t Be Your Thesis", desc:"Why conviction matters more than hearsay in building real portfolios.", cta:"Read" },
-            { tag:"Capital Letters \u2014 Vol. 02", title:"Identifying Macro Themes Early", desc:"How we spot emerging sector tailwinds before the consensus.", cta:"Coming Soon" },
-          ].map((item,i)=><Anim key={i} delay={i*.1}>
-            <div style={{ display:"grid", gridTemplateColumns:"280px 1fr 120px", alignItems:"center", padding:"20px 0", borderTop:"0.5px solid rgba(58,95,138,.1)", gap:"32px" }}>
+          {[...POSTS].sort((a, b) => b.isoDate.localeCompare(a.isoDate)).map((post,i)=><Anim key={post.id} delay={i*.1}>
+            <a href="/insights" style={{ textDecoration:"none", display:"grid", gridTemplateColumns:"280px 1fr 120px", alignItems:"center", padding:"20px 0", borderTop:"0.5px solid rgba(58,95,138,.1)", gap:"32px", cursor:"pointer" }}>
               <div>
-                <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:C.steel, fontWeight:500, display:"block", marginBottom:"6px" }}>{item.tag}</span>
-                <h3 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"19px", fontWeight:500, color:C.navy, margin:0 }}>{item.title}</h3>
+                <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:TYPE_COLORS[post.type] || C.steel, fontWeight:500, display:"block", marginBottom:"6px" }}>{post.type}</span>
+                <h3 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"19px", fontWeight:500, color:C.navy, margin:0 }}>{post.title}</h3>
               </div>
-              <p style={{ fontSize:"13px", lineHeight:1.6, color:C.light, fontWeight:300, margin:0 }}>{item.desc}</p>
-              <span style={{ fontSize:"12px", letterSpacing:"1.5px", textTransform:"uppercase", color:C.gold, fontWeight:500, textAlign:"right" }}>{item.cta} →</span>
-            </div>
+              <p style={{ fontSize:"13px", lineHeight:1.6, color:C.light, fontWeight:300, margin:0 }}>{post.excerpt.length > 140 ? post.excerpt.slice(0, 140) + "..." : post.excerpt}</p>
+              <span style={{ fontSize:"12px", letterSpacing:"1.5px", textTransform:"uppercase", color:C.gold, fontWeight:500, textAlign:"right" }}>Read →</span>
+            </a>
           </Anim>)}
-          <div style={{ borderTop:"0.5px solid rgba(58,95,138,.1)" }} />
+          <div style={{ borderTop:"0.5px solid rgba(58,95,138,.1)", paddingTop:"32px", textAlign:"center" }}>
+            <a href="/insights" style={{ display:"inline-block", padding:"12px 36px", border:`0.5px solid ${C.gold}`, color:C.gold, textDecoration:"none", fontSize:"13px", letterSpacing:"2px", textTransform:"uppercase", fontFamily:"'DM Sans',sans-serif", transition:"all .4s", fontWeight:500 }}>View All Insights →</a>
+          </div>
         </div>
       </section>
 
