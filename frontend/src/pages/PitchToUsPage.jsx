@@ -71,6 +71,8 @@ export default function PitchToUs() {
     }
   };
 
+  const C = { navy:"#0f1a4e", deep:"#1b2858", mid:"#2d4a6f", steel:"#3a5f8a", light:"#7a8fa6", gold:"#c8a86e", page:"#f7f9fb", white:"#fff" };
+
   const inputStyle = { width:"100%", padding:"12px 16px", border:"0.5px solid rgba(58,95,138,.15)", background:C.white, fontFamily:"'DM Sans',sans-serif", fontSize:"14px", color:C.navy, outline:"none", borderRadius:0 };
   const labelStyle = { fontFamily:"'DM Sans',sans-serif", fontSize:"12px", letterSpacing:"1px", textTransform:"uppercase", color:C.light, display:"block", marginBottom:"8px" };
   const textareaStyle = { ...inputStyle, minHeight:"80px", resize:"vertical" };
