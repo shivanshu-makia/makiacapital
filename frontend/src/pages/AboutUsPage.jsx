@@ -128,14 +128,12 @@ export default function MakiaAboutUs() {
 
       {/* HEADER */}
       <header style={{ position:"fixed", top:0, left:0, width:"100%", zIndex:500, height:"72px", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"0 48px", background: solid ? "rgba(247,249,251,.97)" : "transparent", backdropFilter: solid ? "blur(18px)" : "none", borderBottom: solid ? "0.5px solid rgba(58,95,138,.07)" : "none", transition:"all .5s" }}>
-        <a href="/" style={{ textDecoration:"none" }}>
-          <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"22px", fontWeight:300, color: solid ? C.navy : "#fff", letterSpacing:"1px", transition:"color .4s" }}>
-            Makia <span style={{ color:C.gold }}>Capital</span>
-          </span>
+        <a href="/" style={{ display:"flex", alignItems:"center", textDecoration:"none" }}>
+          <img src={solid ? "/images/makia_hero.png" : "/images/logo-white.png"} alt="Makia Capital" style={{ height:"38px", width:"auto", transition:"opacity .3s" }} />
         </a>
         <nav className="hide-mob" style={{ display:"flex", gap:"36px", alignItems:"center" }}>
-          {["About Us","Services","Knowledge","Career"].map(n => (
-            <a key={n} href={n === "About Us" ? "/about" : "#"} className={`nl ${solid ? "nld" : ""}`}>{n}</a>
+          {[{l:"About Us",h:"/about"},{l:"Services",h:"/#services"},{l:"Insights",h:"/insights"},{l:"Career",h:"/#career"}].map(n => (
+            <a key={n.l} href={n.h} className={`nl ${solid ? "nld" : ""}`}>{n.l}</a>
           ))}
           <a href="/pitch" style={{ padding:"8px 22px", border:`0.5px solid ${solid ? C.gold : "rgba(255,255,255,.3)"}`, color: solid ? C.gold : "#fff", textDecoration:"none", fontSize:"12px", letterSpacing:"1.5px", textTransform:"uppercase", transition:"all .35s", fontWeight:500 }}>Pitch to Us</a>
         </nav>
@@ -426,9 +424,9 @@ export default function MakiaAboutUs() {
             </p>
           </div>
           <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"16px" }}>
-            <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"19px", fontWeight:300, color:"rgba(255,255,255,.38)", letterSpacing:"1px" }}>
-              Makia <span style={{ color:C.gold, opacity:.6 }}>Capital</span>
-            </span>
+            <a href="/" style={{ display:"flex", alignItems:"center", textDecoration:"none" }}>
+              <img src="/images/logo-white.png" alt="Makia Capital" style={{ height:"30px", width:"auto", opacity:.85 }} />
+            </a>
             <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"11px", color:"rgba(200,215,230,.17)", letterSpacing:".5px" }}>
               © 2026 Makia Capital. All rights reserved.
             </span>
