@@ -163,7 +163,12 @@ export default function PitchToUs() {
       <section id="form" className="p-sp" style={{ padding:"60px 48px 80px" }}>
         {submitted ? (
           <div data-testid="pitch-success" style={{ maxWidth:"560px", margin:"0 auto", textAlign:"center" }}>
-            <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"56px", color:C.gold, lineHeight:1, marginBottom:"24px" }}>&#10003;</div>
+            <div style={{ marginBottom:"24px" }}>
+              <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="28" cy="28" r="27" stroke="#c8a86e" strokeWidth="1"/>
+                <path d="M18 28L25 35L38 21" stroke="#c8a86e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
             <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"32px", fontWeight:300, color:C.navy, marginBottom:"16px" }}>Your pitch is with our team</h2>
             <div style={{ width:"60px", height:"0.5px", background:C.gold, margin:"0 auto 24px" }} />
             <p style={{ fontSize:"15px", lineHeight:1.7, color:C.navy, fontWeight:400, marginBottom:"8px" }}>

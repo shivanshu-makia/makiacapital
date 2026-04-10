@@ -192,7 +192,7 @@ export default function MakiaBlueGoldV3() {
         .oc{padding:40px;border:0.5px solid rgba(58,95,138,.1);background:#fff;transition:all .4s cubic-bezier(.25,.46,.45,.94);cursor:default;position:relative;overflow:hidden}
         .oc::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,#3a5f8a,#c8a86e,transparent);transform:scaleX(0);transition:transform .5s}.oc:hover::before{transform:scaleX(1)}.oc:hover{border-color:rgba(58,95,138,.2);transform:translateY(-4px);box-shadow:0 20px 60px rgba(15,26,78,.06)}
         .fl{color:rgba(255,255,255,.45);text-decoration:none;font-size:14px;transition:color .3s;display:block;margin-bottom:12px}.fl:hover{color:#c8a86e}
-        .mm{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(15,26,78,.97);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+        .mm{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(15,26,78,1);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px}
         .mm a{color:#fff;text-decoration:none;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;letter-spacing:2px;transition:color .3s}.mm a:hover{color:#c8a86e}
         .kc{padding:32px;border:0.5px solid rgba(58,95,138,.1);background:#fff;transition:all .4s;cursor:default}.kc:hover{border-color:rgba(58,95,138,.25);transform:translateY(-3px);box-shadow:0 12px 40px rgba(15,26,78,.05)}
         @media(max-width:768px){
