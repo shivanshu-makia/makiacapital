@@ -95,6 +95,7 @@ function DisclosureRow({ label, href = "#" }) {
 
 export default function MakiaAboutUs() {
   const [solid, setSolid] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     const h = () => setSolid(window.scrollY > 80);
     window.addEventListener("scroll", h, { passive: true });
@@ -123,11 +124,33 @@ export default function MakiaAboutUs() {
         @keyframes haloFloat{0%,100%{opacity:.2}50%{opacity:.4}}
         .nl{color:rgba(255,255,255,.65);text-decoration:none;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;transition:color .3s;font-weight:400}.nl:hover{color:#c8a86e}
         .nld{color:#7a8fa6}.nld:hover{color:#c8a86e}
-        @media(max-width:768px){.two-col,.three-col,.backing-grid{grid-template-columns:1fr!important}.hero-h{font-size:34px!important}.hide-mob{display:none!important}}
+        @media(max-width:768px){
+          .two-col,.three-col,.backing-grid{grid-template-columns:1fr!important}
+          .hero-h{font-size:32px!important}
+          .hide-mob{display:none!important}
+          .mob-menu-btn{display:flex!important}
+          .mob-menu{display:flex!important}
+          .a-sp{padding:48px 20px!important}
+          .a-sp-lg{padding:60px 20px!important}
+          .a-header{padding:0 16px!important}
+          .a-cta-h{font-size:30px!important}
+          .a-persp-border{border-left:none!important;padding-left:0!important;border-top:0.5px solid rgba(58,95,138,.06)!important;padding-top:24px!important;margin-top:16px!important}
+          .a-process-border{border-right:none!important;border-bottom:0.5px solid rgba(58,95,138,.07)!important;padding-bottom:24px!important;margin-bottom:24px!important}
+          .a-process-pad{padding:0!important}
+          .a-section-h{font-size:30px!important}
+          .a-lead-panel{min-height:240px!important}
+          .a-lead-pad{padding:32px 24px!important}
+        }
+        @media(min-width:769px){.mob-menu-btn{display:none!important}.mob-menu{display:none!important}}
       `}</style>
 
+      {menuOpen && <div style={{ position:"fixed", top:0, left:0, width:"100%", height:"100vh", background:"rgba(15,26,78,.97)", zIndex:999, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:"32px" }} onClick={()=>setMenuOpen(false)}>
+        {[{l:"Home",h:"/"},{l:"About Us",h:"/about"},{l:"Insights",h:"/insights"}].map(n=><a key={n.l} href={n.h} style={{ color:"#fff", textDecoration:"none", fontFamily:"'Cormorant Garamond',serif", fontSize:"28px", fontWeight:300, letterSpacing:"2px" }}>{n.l}</a>)}
+        <a href="/pitch" style={{color:C.gold, textDecoration:"none", fontFamily:"'Cormorant Garamond',serif", fontSize:"28px", fontWeight:300, letterSpacing:"2px"}}>Pitch to Us</a>
+      </div>}
+
       {/* HEADER */}
-      <header style={{ position:"fixed", top:0, left:0, width:"100%", zIndex:500, height:"72px", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"0 48px", background: solid ? "rgba(247,249,251,.97)" : "transparent", backdropFilter: solid ? "blur(18px)" : "none", borderBottom: solid ? "0.5px solid rgba(58,95,138,.07)" : "none", transition:"all .5s" }}>
+      <header className="a-header" style={{ position:"fixed", top:0, left:0, width:"100%", zIndex:500, height:"72px", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"0 48px", background: solid ? "rgba(247,249,251,.97)" : "transparent", backdropFilter: solid ? "blur(18px)" : "none", borderBottom: solid ? "0.5px solid rgba(58,95,138,.07)" : "none", transition:"all .5s" }}>
         <a href="/" style={{ display:"flex", alignItems:"center", textDecoration:"none" }}>
           <img src={solid ? "/images/makia_hero.png" : "/images/logo-white.png"} alt="Makia Capital" style={{ height:"38px", width:"auto", transition:"opacity .3s" }} />
         </a>
@@ -137,6 +160,12 @@ export default function MakiaAboutUs() {
           ))}
           <a href="/pitch" style={{ padding:"8px 22px", border:`0.5px solid ${solid ? C.gold : "rgba(255,255,255,.3)"}`, color: solid ? C.gold : "#fff", textDecoration:"none", fontSize:"12px", letterSpacing:"1.5px", textTransform:"uppercase", transition:"all .35s", fontWeight:500 }}>Pitch to Us</a>
         </nav>
+        <button className="mob-menu-btn" onClick={()=>setMenuOpen(!menuOpen)} style={{ background:"none", border:"none", cursor:"pointer", padding:"8px", display:"none" }}>
+          <div style={{ width:"24px", display:"flex", flexDirection:"column", gap:"5px" }}>
+            <span style={{ height:"1px", background:solid?C.navy:"#fff", display:"block" }} />
+            <span style={{ height:"1px", background:solid?C.navy:"#fff", display:"block", width:"16px", marginLeft:"auto" }} />
+          </div>
+        </button>
       </header>
 
       {/* HERO */}
@@ -168,14 +197,14 @@ export default function MakiaAboutUs() {
       </section>
 
       {/* OUR PERSPECTIVE */}
-      <section style={{ padding:"108px 48px", background:C.white }}>
+      <section className="a-sp-lg" style={{ padding:"108px 48px", background:C.white }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Line style={{ marginBottom:"68px" }} />
           <div className="two-col" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"88px", alignItems:"center" }}>
             <div>
               <Reveal><Tag number="01" label="Our Perspective" /></Reveal>
               <Reveal delay={0.1}>
-                <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, lineHeight:1.22, marginBottom:"32px" }}>
+                <h2 className="a-section-h" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, lineHeight:1.22, marginBottom:"32px" }}>
                   <SweepHeading>We work with ambitious founders</SweepHeading><br />
                   <SweepHeading gold>building for scale</SweepHeading>
                 </h2>
@@ -190,7 +219,7 @@ export default function MakiaAboutUs() {
               </Reveal>
             </div>
             <Reveal delay={0.18} direction="right">
-              <div style={{ borderLeft:"0.5px solid rgba(58,95,138,.07)", paddingLeft:"52px" }}>
+              <div className="a-persp-border" style={{ borderLeft:"0.5px solid rgba(58,95,138,.07)", paddingLeft:"52px" }}>
                 {[["₹250 Cr+","AIF Fund Size"],["110+","Years Cumulative Experience"],["70+","Clients Served"],["2 Decades","Capital Markets Track Record"]].map(([v,l],i,a) => (
                   <div key={i} style={{ paddingBottom:"26px", marginBottom:"26px", borderBottom: i < a.length-1 ? "0.5px solid rgba(58,95,138,.06)" : "none" }}>
                     <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"36px", fontWeight:300, color:C.navy, lineHeight:1.1 }}>{v}</div>
@@ -204,12 +233,12 @@ export default function MakiaAboutUs() {
       </section>
 
       {/* INVESTMENT THESIS — Horizontal card grid instead of vertical list */}
-      <section style={{ padding:"108px 48px", background:C.page }}>
+      <section className="a-sp-lg" style={{ padding:"108px 48px", background:C.page }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Line style={{ marginBottom:"68px" }} />
           <Reveal><Tag number="02" label="Investment Thesis" /></Reveal>
           <Reveal delay={0.1}>
-            <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, lineHeight:1.22, marginBottom:"52px" }}>
+            <h2 className="a-section-h" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, lineHeight:1.22, marginBottom:"52px" }}>
               Five principles that <span style={{ fontStyle:"italic", color:C.gold }}>guide every decision</span>
             </h2>
           </Reveal>
@@ -258,12 +287,12 @@ export default function MakiaAboutUs() {
       </section>
 
       {/* FOUNDERS */}
-      <section style={{ padding:"108px 48px", background:C.white }}>
+      <section className="a-sp-lg" style={{ padding:"108px 48px", background:C.white }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Line style={{ marginBottom:"68px" }} />
           <Reveal><Tag number="03" label="Founders" /></Reveal>
           <Reveal delay={0.1}>
-            <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, marginBottom:"64px", lineHeight:1.22 }}>
+            <h2 className="a-section-h" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, marginBottom:"64px", lineHeight:1.22 }}>
               The people behind<br /><span style={{ fontStyle:"italic", color:C.gold }}>the conviction</span>
             </h2>
           </Reveal>
@@ -275,7 +304,7 @@ export default function MakiaAboutUs() {
       </section>
 
       {/* HEAD OF IC COMMITTEE — side-by-side aligned layout */}
-      <section style={{ padding:"108px 48px", background:C.page }}>
+      <section className="a-sp-lg" style={{ padding:"108px 48px", background:C.page }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Line style={{ marginBottom:"68px" }} />
           <Reveal><Tag number="04" label="Leadership" /></Reveal>
@@ -287,7 +316,7 @@ export default function MakiaAboutUs() {
           <Reveal delay={0.18}>
             <div className="two-col" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"0", border:"0.5px solid rgba(58,95,138,.08)", background:C.white, overflow:"hidden" }}>
               {/* Left — visual panel */}
-              <div style={{ background:`linear-gradient(145deg,${C.deep} 0%,#0d1635 60%,#162040 100%)`, position:"relative", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"40px 44px", minHeight:"380px" }}>
+              <div className="a-lead-panel" style={{ background:`linear-gradient(145deg,${C.deep} 0%,#0d1635 60%,#162040 100%)`, position:"relative", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"40px 44px", minHeight:"380px" }}>
                 <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
                   <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"96px", fontWeight:300, color:"rgba(200,168,110,.08)", letterSpacing:"6px" }}>PKV</span>
                 </div>
@@ -297,7 +326,7 @@ export default function MakiaAboutUs() {
                 </div>
               </div>
               {/* Right — text panel */}
-              <div style={{ padding:"48px 44px", display:"flex", flexDirection:"column", justifyContent:"center" }}>
+              <div className="a-lead-pad" style={{ padding:"48px 44px", display:"flex", flexDirection:"column", justifyContent:"center" }}>
                 <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"14px", lineHeight:1.9, color:C.light, fontWeight:300, marginBottom:"22px" }}>
                   Makia Capital is backed by <strong style={{ color:C.navy, fontWeight:500 }}>Pavan Kumar Vijay</strong>, Founder of Corporate Professionals — a leading institution in corporate advisory and capital markets.
                 </p>
@@ -323,7 +352,7 @@ export default function MakiaAboutUs() {
       </section>
 
       {/* ENGAGEMENT PROCESS */}
-      <section style={{ padding:"108px 48px", background:C.white }}>
+      <section className="a-sp-lg" style={{ padding:"108px 48px", background:C.white }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Line style={{ marginBottom:"68px" }} />
           <Reveal><Tag number="05" label="Engagement Process" /></Reveal>
@@ -355,7 +384,7 @@ export default function MakiaAboutUs() {
       </section>
 
       {/* KEY DISCLOSURES */}
-      <section style={{ padding:"108px 48px", background:C.page }}>
+      <section className="a-sp-lg" style={{ padding:"108px 48px", background:C.page }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Line style={{ marginBottom:"68px" }} />
           <Reveal><Tag number="06" label="Key Disclosures" /></Reveal>
@@ -375,7 +404,7 @@ export default function MakiaAboutUs() {
       </section>
 
       {/* CLOSING STATEMENT */}
-      <section style={{ padding:"120px 48px", background:C.navy, position:"relative", overflow:"hidden", textAlign:"center" }}>
+      <section className="a-sp" style={{ padding:"120px 48px", background:C.navy, position:"relative", overflow:"hidden", textAlign:"center" }}>
         <Line dark style={{ position:"absolute", top:0, left:0 }} />
         <div style={{ position:"absolute", inset:0, pointerEvents:"none", opacity:.05 }}>
           <div style={{ position:"absolute", left:"20%", top:0, width:"0.5px", height:"100%", background:`linear-gradient(180deg,transparent,${C.steel},transparent)` }} />
@@ -385,7 +414,7 @@ export default function MakiaAboutUs() {
         <div style={{ position:"relative", zIndex:2, maxWidth:"680px", margin:"0 auto" }}>
           <Reveal>
             <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"11px", letterSpacing:"4px", textTransform:"uppercase", color:C.gold, marginBottom:"28px" }}>The Long View</div>
-            <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"46px", fontWeight:300, color:"#fff", lineHeight:1.22, marginBottom:"24px" }}>
+            <h2 className="a-cta-h" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"46px", fontWeight:300, color:"#fff", lineHeight:1.22, marginBottom:"24px" }}>
               We are not just capital.<br /><span style={{ fontStyle:"italic", color:C.gold }}>We are a commitment.</span>
             </h2>
             <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"15px", color:"rgba(200,215,230,.38)", lineHeight:1.85, fontWeight:300, marginBottom:"48px" }}>
@@ -402,7 +431,7 @@ export default function MakiaAboutUs() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background:C.navy, padding:"52px 48px 32px", borderTop:"0.5px solid rgba(58,95,138,.1)" }}>
+      <footer className="a-sp" style={{ background:C.navy, padding:"52px 48px 32px", borderTop:"0.5px solid rgba(58,95,138,.1)" }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <div style={{ marginBottom:"32px", paddingBottom:"28px", borderBottom:"0.5px solid rgba(58,95,138,.09)" }}>
             <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(200px,1fr))", gap:"8px 40px", marginBottom:"16px" }}>

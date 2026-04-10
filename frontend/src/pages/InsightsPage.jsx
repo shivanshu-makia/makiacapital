@@ -56,7 +56,7 @@ function GeoGrid() {
     <div style={{ marginBottom: 44 }}>
       <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 6, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>Global & Geopolitical Developments — March 2026</h2>
       <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light, marginBottom: 16 }}>Tap any item to expand the India impact.</p>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: C.line }}>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: C.line }} className="i-geo-grid">
         {GEO_ITEMS.map((item, i) => {
           const isOpen = open === i;
           return (
@@ -85,7 +85,7 @@ function GeoGrid() {
 
 function PitchBlock() {
   return (
-    <div style={{ margin: "44px 0", background: C.navy, padding: "36px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 28, flexWrap: "wrap" }}>
+    <div className="i-pitch-block" style={{ margin: "44px 0", background: C.navy, padding: "36px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 28, flexWrap: "wrap" }}>
       <div>
         <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>Building Something?</p>
         <h3 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 24, fontWeight: 300, color: C.white, lineHeight: 1.3, maxWidth: 400 }}>If this research speaks to the market you're building in — <em style={{ color: C.gold }}>we'd like to hear from you.</em></h3>
@@ -132,7 +132,7 @@ function Card({ post, onClick, i }) {
   return (
     <Fade delay={i * 70}>
       <div data-testid={`insight-card-${post.id}`} onClick={() => onClick(post)} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-        style={{ borderTop: `0.5px solid ${C.line}`, padding: "28px 0", cursor: "pointer", display: "grid", gridTemplateColumns: "1fr auto", gap: 28, alignItems: "start" }}>
+        className="i-card-grid" style={{ borderTop: `0.5px solid ${C.line}`, padding: "28px 0", cursor: "pointer", display: "grid", gridTemplateColumns: "1fr auto", gap: 28, alignItems: "start" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
             <Pill type={post.type} />
@@ -152,22 +152,52 @@ function Card({ post, onClick, i }) {
 
 function InsightNav() {
   const [solid, setSolid] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => { const h = () => setSolid(window.scrollY > 40); window.addEventListener("scroll", h, { passive: true }); return () => window.removeEventListener("scroll", h); }, []);
 
-  const LOGO_WHITE = "/images/logo-white.png";
   const LOGO_DARK = "/images/makia_hero.png";
   const navLinks = [{ l: "Home", h: "/" }, { l: "About Us", h: "/about" }, { l: "Insights", h: "/insights" }];
 
   return (
-    <header data-testid="insights-nav" style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 500, padding: "0 48px", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between", transition: "all .4s", background: "rgba(247,249,251,.97)", backdropFilter: "blur(20px)", borderBottom: "0.5px solid rgba(58,95,138,.08)" }}>
-      <Link to="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
-        <img src={LOGO_DARK} alt="Makia Capital" style={{ height: "34px", width: "auto" }} />
-      </Link>
-      <nav style={{ display: "flex", gap: "28px", alignItems: "center" }}>
-        {navLinks.map(n => <Link key={n.l} to={n.h} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "11px", letterSpacing: "1.5px", textTransform: "uppercase", color: n.l === "Insights" ? C.gold : C.light, textDecoration: "none", fontWeight: 400, borderBottom: n.l === "Insights" ? `1px solid ${C.gold}` : "1px solid transparent", paddingBottom: 2 }}>{n.l}</Link>)}
-        <Link to="/pitch" style={{ padding: "8px 20px", border: `0.5px solid ${C.gold}`, color: C.gold, textDecoration: "none", fontSize: "11px", letterSpacing: "1.5px", textTransform: "uppercase", fontWeight: 500 }}>Pitch to Us</Link>
-      </nav>
-    </header>
+    <>
+      <style>{`
+        @media(max-width:768px){
+          .i-nav{padding:0 16px!important}
+          .i-nav-links{display:none!important}
+          .i-mob-btn{display:flex!important}
+          .i-sp{padding-left:20px!important;padding-right:20px!important}
+          .i-card-grid{grid-template-columns:1fr!important}
+          .i-stat-grid{grid-template-columns:repeat(2,1fr)!important}
+          .i-geo-grid{grid-template-columns:1fr!important}
+          .i-pitch-block{flex-direction:column!important;padding:28px 24px!important;text-align:center}
+          .i-tabs{overflow-x:auto!important;justify-content:flex-start!important;-webkit-overflow-scrolling:touch}
+          .i-tabs button{padding:11px 14px!important;font-size:10px!important;white-space:nowrap}
+          .i-footer-sub{flex-direction:column!important;gap:8px!important;text-align:center}
+          .i-detail-body{padding:40px 20px 60px!important}
+          .i-hero-h{font-size:clamp(28px,4.5vw,44px)!important}
+        }
+        @media(min-width:769px){.i-mob-btn{display:none!important}}
+      `}</style>
+      {menuOpen && <div style={{ position:"fixed", top:0, left:0, width:"100%", height:"100vh", background:"rgba(15,26,78,.97)", zIndex:999, display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:"32px" }} onClick={()=>setMenuOpen(false)}>
+        {navLinks.map(n=><Link key={n.l} to={n.h} style={{ color:"#fff", textDecoration:"none", fontFamily:"'Cormorant Garamond',serif", fontSize:"28px", fontWeight:300, letterSpacing:"2px" }}>{n.l}</Link>)}
+        <Link to="/pitch" style={{color:C.gold, textDecoration:"none", fontFamily:"'Cormorant Garamond',serif", fontSize:"28px", fontWeight:300, letterSpacing:"2px"}}>Pitch to Us</Link>
+      </div>}
+      <header data-testid="insights-nav" className="i-nav" style={{ position: "fixed", top: 0, left: 0, width: "100%", zIndex: 500, padding: "0 48px", height: "64px", display: "flex", alignItems: "center", justifyContent: "space-between", transition: "all .4s", background: "rgba(247,249,251,.97)", backdropFilter: "blur(20px)", borderBottom: "0.5px solid rgba(58,95,138,.08)" }}>
+        <Link to="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+          <img src={LOGO_DARK} alt="Makia Capital" style={{ height: "34px", width: "auto" }} />
+        </Link>
+        <nav className="i-nav-links" style={{ display: "flex", gap: "28px", alignItems: "center" }}>
+          {navLinks.map(n => <Link key={n.l} to={n.h} style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "11px", letterSpacing: "1.5px", textTransform: "uppercase", color: n.l === "Insights" ? C.gold : C.light, textDecoration: "none", fontWeight: 400, borderBottom: n.l === "Insights" ? `1px solid ${C.gold}` : "1px solid transparent", paddingBottom: 2 }}>{n.l}</Link>)}
+          <Link to="/pitch" style={{ padding: "8px 20px", border: `0.5px solid ${C.gold}`, color: C.gold, textDecoration: "none", fontSize: "11px", letterSpacing: "1.5px", textTransform: "uppercase", fontWeight: 500 }}>Pitch to Us</Link>
+        </nav>
+        <button className="i-mob-btn" onClick={()=>setMenuOpen(!menuOpen)} style={{ background:"none", border:"none", cursor:"pointer", padding:"8px", display:"none" }}>
+          <div style={{ width:"24px", display:"flex", flexDirection:"column", gap:"5px" }}>
+            <span style={{ height:"1px", background:C.navy, display:"block" }} />
+            <span style={{ height:"1px", background:C.navy, display:"block", width:"16px", marginLeft:"auto" }} />
+          </div>
+        </button>
+      </header>
+    </>
   );
 }
 
@@ -188,7 +218,7 @@ function InsightFooter() {
           )}
         </div>
       </div>
-      <div style={{ padding: "24px 5%", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
+      <div className="i-footer-sub" style={{ padding: "24px 5%", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
         <Link to="/" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
           <img src="/images/logo-white.png" alt="Makia Capital" style={{ height: "28px", width: "auto", opacity: 0.85 }} />
         </Link>
@@ -212,13 +242,13 @@ function List({ onOpen }) {
   const shown = tab === "All" ? sorted : sorted.filter(p => p.type === tab);
   return (
     <>
-      <section data-testid="insights-hero" style={{ paddingTop: 132, paddingBottom: 60, background: C.white, borderBottom: `0.5px solid ${C.line}`, textAlign: "center" }}>
+      <section data-testid="insights-hero" className="i-sp" style={{ paddingTop: 132, paddingBottom: 60, background: C.white, borderBottom: `0.5px solid ${C.line}`, textAlign: "center" }}>
         <div style={{ maxWidth: 800, margin: "0 auto", padding: "0 5%" }}>
           <Fade><p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: C.gold, marginBottom: 18 }}>Knowledge & Research</p></Fade>
-          <Fade delay={80}><h1 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: "clamp(36px,5vw,60px)", fontWeight: 300, color: C.navy, lineHeight: 1.12, marginBottom: 20 }}>Insights from<br /><em style={{ color: C.gold }}>the Makia desk.</em></h1></Fade>
+          <Fade delay={80}><h1 className="i-hero-h" style={{ fontFamily: "Cormorant Garamond,serif", fontSize: "clamp(36px,5vw,60px)", fontWeight: 300, color: C.navy, lineHeight: 1.12, marginBottom: 20 }}>Insights from<br /><em style={{ color: C.gold }}>the Makia desk.</em></h1></Fade>
           <Fade delay={150}><p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 15, color: C.light, lineHeight: 1.75, fontWeight: 300, maxWidth: 480, margin: "0 auto" }}>Market intelligence, capital markets research, and original thinking on India's investment landscape.</p></Fade>
           <Fade delay={220}>
-            <div data-testid="insights-tabs" style={{ display: "flex", justifyContent: "center", marginTop: 48, borderBottom: `0.5px solid ${C.line}` }}>
+            <div data-testid="insights-tabs" className="i-tabs" style={{ display: "flex", justifyContent: "center", marginTop: 48, borderBottom: `0.5px solid ${C.line}` }}>
               {["All","Newsletter","Research","Blog"].map(t => (
                 <button key={t} data-testid={`tab-${t.toLowerCase()}`} onClick={() => setTab(t)} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "DM Sans,sans-serif", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: tab === t ? C.navy : C.light, padding: "11px 22px", borderBottom: tab === t ? `2px solid ${C.gold}` : "2px solid transparent", marginBottom: -0.5, transition: "all .2s" }}>{t}</button>
               ))}
@@ -226,7 +256,7 @@ function List({ onOpen }) {
           </Fade>
         </div>
       </section>
-      <section data-testid="insights-list" style={{ background: C.white, padding: "0 5%" }}>
+      <section data-testid="insights-list" className="i-sp" style={{ background: C.white, padding: "0 5%" }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           {shown.map((p, i) => <Card key={p.id} post={p} onClick={onOpen} i={i} />)}
           <div style={{ borderTop: `0.5px solid ${C.line}` }} />
@@ -261,7 +291,7 @@ function Detail({ post, onBack }) {
       </section>
 
       {stats.length > 0 && (
-        <div data-testid="insight-key-stats" style={{ background: C.navy, display: "grid", gridTemplateColumns: `repeat(${cols},1fr)` }}>
+        <div data-testid="insight-key-stats" className="i-stat-grid" style={{ background: C.navy, display: "grid", gridTemplateColumns: `repeat(${cols},1fr)` }}>
           {stats.map((s, i) => (
             <div key={i} style={{ background: C.navy, padding: "26px 20px", textAlign: "center", borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,.08)" : "none" }}>
               <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,.35)", marginBottom: 7 }}>{s.label}</p>
@@ -272,7 +302,7 @@ function Detail({ post, onBack }) {
         </div>
       )}
 
-      <article data-testid="insight-detail-body" style={{ background: C.white, padding: "60px 5% 80px" }}>
+      <article data-testid="insight-detail-body" className="i-detail-body" style={{ background: C.white, padding: "60px 5% 80px" }}>
         <div style={{ maxWidth: 680, margin: "0 auto" }}>
           {post.body.map((b, i) => renderBlock(b, i))}
         </div>

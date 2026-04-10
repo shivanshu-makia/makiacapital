@@ -86,8 +86,8 @@ function StageDiagram() {
 }
 
 function Testimonial({ quote, name, title, active }) {
-  return <div style={{ minWidth:"100%", padding:"0 20px", boxSizing:"border-box", opacity:active?1:.3, transition:"opacity .6s" }}>
-    <div style={{ background:"linear-gradient(135deg,#f4f7fa,#edf2f7)", borderRadius:"2px", padding:"48px", border:"0.5px solid rgba(58,95,138,.12)", maxWidth:"800px", margin:"0 auto" }}>
+  return <div style={{ minWidth:"100%", padding:"0 10px", boxSizing:"border-box", opacity:active?1:.3, transition:"opacity .6s" }}>
+    <div className="m-test-wrap" style={{ background:"linear-gradient(135deg,#f4f7fa,#edf2f7)", borderRadius:"2px", padding:"48px", border:"0.5px solid rgba(58,95,138,.12)", maxWidth:"800px", margin:"0 auto" }}>
       <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", color:"#c8a86e", lineHeight:1, marginBottom:"24px", opacity:.4 }}>"</div>
       <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"20px", lineHeight:1.8, color:"#1b2838", fontStyle:"italic", marginBottom:"32px" }}>{quote}</p>
       <FineLine style={{ marginBottom:"20px", opacity:.15 }} />
@@ -195,7 +195,26 @@ export default function MakiaBlueGoldV3() {
         .mm{position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(15,26,78,.97);z-index:999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px}
         .mm a{color:#fff;text-decoration:none;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;letter-spacing:2px;transition:color .3s}.mm a:hover{color:#c8a86e}
         .kc{padding:32px;border:0.5px solid rgba(58,95,138,.1);background:#fff;transition:all .4s;cursor:default}.kc:hover{border-color:rgba(58,95,138,.25);transform:translateY(-3px);box-shadow:0 12px 40px rgba(15,26,78,.05)}
-        @media(max-width:768px){.dn{display:none!important}.ht{font-size:34px!important;line-height:1.2!important}.st{font-size:30px!important}.og{grid-template-columns:1fr!important}.fg{grid-template-columns:1fr!important;text-align:center}.pb{display:none}.il{flex-direction:column!important}.kg{grid-template-columns:1fr!important}.ng{grid-template-columns:1fr 1fr!important}}
+        @media(max-width:768px){
+          .dn{display:none!important}
+          .mt{display:flex!important}
+          .ht{font-size:32px!important;line-height:1.2!important}
+          .st{font-size:26px!important}
+          .og{grid-template-columns:1fr!important;gap:32px 0!important}
+          .fg{grid-template-columns:1fr!important;text-align:center;gap:32px!important}
+          .pb{display:none}
+          .il{flex-direction:column!important;gap:32px!important}
+          .kg{grid-template-columns:1fr!important;gap:0!important}
+          .ng{grid-template-columns:1fr!important}
+          .m-sp{padding:48px 20px!important}
+          .m-sp-sm{padding:40px 20px!important}
+          .m-header{padding:0 16px!important}
+          .m-blines{display:none!important}
+          .m-test-wrap{padding:24px!important}
+          .m-cta-h{font-size:30px!important}
+          .m-invest-border{border-left:none!important;padding-left:0!important;border-top:0.5px solid rgba(58,95,138,.08)!important;padding-top:24px!important}
+          .m-hero-sub{font-size:14px!important}
+        }
         @media(min-width:769px){.mt{display:none!important}}
       `}</style>
 
@@ -297,7 +316,7 @@ export default function MakiaBlueGoldV3() {
       </section>
 
       {/* INVESTMENT FOCUS */}
-      <section style={{ padding:"72px 48px", background:C.page, position:"relative" }}>
+      <section className="m-sp-sm" style={{ padding:"72px 48px", background:C.page, position:"relative" }}>
         <FineLine />
         <div style={{ maxWidth:"1100px", margin:"0 auto", paddingTop:"40px" }}>
           <Anim><Tag number="02" label="Investment Focus" /></Anim>
@@ -325,7 +344,7 @@ export default function MakiaBlueGoldV3() {
 
             {/* Right: Investment Stage Diagram */}
             <Anim delay={.3} style={{ flex:0.85 }}>
-              <div style={{ borderLeft:"0.5px solid rgba(58,95,138,.08)", paddingLeft:"40px" }}>
+              <div className="m-invest-border" style={{ borderLeft:"0.5px solid rgba(58,95,138,.08)", paddingLeft:"40px" }}>
                 <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"10px", letterSpacing:"3px", textTransform:"uppercase", color:C.steel, marginBottom:"20px", fontWeight:500 }}>Investment Stage</div>
                 <StageDiagram />
               </div>
@@ -335,7 +354,7 @@ export default function MakiaBlueGoldV3() {
       </section>
 
       {/* OFFERINGS */}
-      <section id="services" style={{ padding:"100px 48px", background:C.white }}>
+      <section id="services" className="m-sp" style={{ padding:"100px 48px", background:C.white }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Anim><Tag number="03" label="Services" /><h2 className="st" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, marginBottom:"60px" }}>Our Key <span style={{ color:C.gold, fontStyle:"italic" }}>Offerings</span></h2></Anim>
           <div className="og" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"48px 60px" }}>
@@ -352,7 +371,7 @@ export default function MakiaBlueGoldV3() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section style={{ padding:"80px 48px 100px", background:C.white }}>
+      <section className="m-sp" style={{ padding:"80px 48px 100px", background:C.white }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Anim><Tag number="04" label="Testimonials" /><h2 className="st" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, marginBottom:"60px" }}>What Our <span style={{ color:C.gold, fontStyle:"italic" }}>Partners Say</span></h2></Anim>
           <div style={{ overflow:"hidden" }}>
@@ -367,7 +386,7 @@ export default function MakiaBlueGoldV3() {
       </section>
 
       {/* KNOWLEDGE */}
-      <section id="knowledge" style={{ padding:"100px 48px", background:C.page }}>
+      <section id="knowledge" className="m-sp" style={{ padding:"100px 48px", background:C.page }}>
         <FineLine style={{ marginBottom:"60px" }} />
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <Anim>
@@ -376,7 +395,7 @@ export default function MakiaBlueGoldV3() {
             <p style={{ fontSize:"15px", lineHeight:1.7, color:C.light, maxWidth:"600px", fontWeight:300, marginBottom:"48px" }}>From our weekly Capital Markets webinars reaching 1.5 lakh+ professionals to long-form writing on investing — we believe knowledge shared freely compounds the most.</p>
           </Anim>
           {[...POSTS].sort((a, b) => b.isoDate.localeCompare(a.isoDate)).map((post,i)=><Anim key={post.id} delay={i*.1}>
-            <a href="/insights" style={{ textDecoration:"none", display:"grid", gridTemplateColumns:"280px 1fr 120px", alignItems:"center", padding:"20px 0", borderTop:"0.5px solid rgba(58,95,138,.1)", gap:"32px", cursor:"pointer" }}>
+            <a href="/insights" className="kg" style={{ textDecoration:"none", display:"grid", gridTemplateColumns:"280px 1fr 120px", alignItems:"center", padding:"20px 0", borderTop:"0.5px solid rgba(58,95,138,.1)", gap:"32px", cursor:"pointer" }}>
               <div>
                 <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"10px", letterSpacing:"2px", textTransform:"uppercase", color:TYPE_COLORS[post.type] || C.steel, fontWeight:500, display:"block", marginBottom:"6px" }}>{post.type}</span>
                 <h3 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"19px", fontWeight:500, color:C.navy, margin:0 }}>{post.title}</h3>
@@ -392,7 +411,7 @@ export default function MakiaBlueGoldV3() {
       </section>
 
       {/* FAQ */}
-      <section style={{ padding:"100px 48px", background:C.white }}>
+      <section className="m-sp" style={{ padding:"100px 48px", background:C.white }}>
         <FineLine style={{ marginBottom:"60px" }} />
         <div style={{ maxWidth:"800px", margin:"0 auto" }}>
           <Anim><Tag number="06" label="FAQs" /><h2 className="st" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, marginBottom:"60px" }}>Frequently Asked <span style={{ color:C.gold, fontStyle:"italic" }}>Questions</span></h2></Anim>
@@ -401,7 +420,7 @@ export default function MakiaBlueGoldV3() {
       </section>
 
       {/* CTA */}
-      <section id="pitch" style={{ padding:"120px 48px", background:C.navy, position:"relative", textAlign:"center", overflow:"hidden" }}>
+      <section id="pitch" className="m-sp" style={{ padding:"120px 48px", background:C.navy, position:"relative", textAlign:"center", overflow:"hidden" }}>
         <FineLine dark style={{ position:"absolute", top:0, left:0 }} />
         <div style={{ position:"absolute", inset:0, pointerEvents:"none", opacity:.08 }}>
           <div style={{ position:"absolute", left:"20%", top:0, width:"0.5px", height:"100%", background:`linear-gradient(180deg,transparent,${C.steel},transparent)` }} />
@@ -411,7 +430,7 @@ export default function MakiaBlueGoldV3() {
         <div style={{ position:"absolute", inset:0, background:"radial-gradient(ellipse at 50% 50%, rgba(58,95,138,.1) 0%, transparent 60%)", pointerEvents:"none" }} />
         <Anim>
           <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"12px", letterSpacing:"4px", textTransform:"uppercase", color:C.gold, marginBottom:"28px" }}>Get Started</div>
-          <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"48px", fontWeight:300, color:"#fff", marginBottom:"20px", lineHeight:1.2 }}>Ready to Build<br />Something Extraordinary?</h2>
+          <h2 className="m-cta-h" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"48px", fontWeight:300, color:"#fff", marginBottom:"20px", lineHeight:1.2 }}>Ready to Build<br />Something Extraordinary?</h2>
           <p style={{ fontSize:"15px", color:"rgba(200,215,230,.5)", maxWidth:"500px", margin:"0 auto 48px", lineHeight:1.7, fontWeight:300 }}>Whether you're preparing for an IPO, raising growth capital, or looking for a long-term investment partner — we'd love to hear your story.</p>
           <a href="/pitch" style={{ display:"inline-block", padding:"14px 48px", border:`0.5px solid ${C.gold}`, color:C.gold, textDecoration:"none", fontSize:"13px", letterSpacing:"2px", textTransform:"uppercase", fontFamily:"'DM Sans',sans-serif", transition:"all .4s", fontWeight:500 }}
             onMouseEnter={e=>{e.target.style.background=`linear-gradient(135deg,${C.steel},${C.gold})`;e.target.style.color="#fff";e.target.style.borderColor="transparent"}}
@@ -421,7 +440,7 @@ export default function MakiaBlueGoldV3() {
       </section>
 
       {/* FOOTER */}
-      <footer style={{ background:C.navy, padding:"80px 48px 40px" }}>
+      <footer className="m-sp" style={{ background:C.navy, padding:"80px 48px 40px" }}>
         <div style={{ maxWidth:"1100px", margin:"0 auto" }}>
           <div className="fg" style={{ display:"grid", gridTemplateColumns:"1.5fr 1fr 1fr 1fr", gap:"48px", marginBottom:"60px" }}>
             <div>

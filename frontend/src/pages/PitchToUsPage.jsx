@@ -91,17 +91,30 @@ export default function PitchToUs() {
         .pill{padding:8px 16px;border:0.5px solid rgba(58,95,138,.12);font-size:13px;cursor:pointer;transition:all .2s;background:${C.white};color:${C.light}}
         .pill.active{border-color:${C.gold};color:${C.gold};background:rgba(200,168,110,.05)}
         .pill:hover{border-color:${C.steel}}
+        @media(max-width:768px){
+          .p-sp{padding-left:20px!important;padding-right:20px!important}
+          .p-header{padding:20px 16px!important}
+          .p-hero-h{font-size:30px!important}
+          .p-grid-2{grid-template-columns:1fr!important}
+          .p-promise{flex-direction:column!important;gap:24px!important}
+          .p-promise-left{flex:none!important}
+          .p-promise-border{border-left:none!important;padding-left:0!important;border-top:0.5px solid rgba(58,95,138,.08)!important;padding-top:20px!important}
+          .p-form-wrap{padding:40px 20px!important}
+          .p-footer-grid{grid-template-columns:1fr!important;text-align:center}
+          .p-footer{padding:40px 20px 24px!important}
+          .p-cta-h{font-size:30px!important}
+        }
       `}</style>
 
       {/* Header */}
-      <header style={{ padding:"20px 48px", borderBottom:"0.5px solid rgba(58,95,138,.06)", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
+      <header className="p-header" style={{ padding:"20px 48px", borderBottom:"0.5px solid rgba(58,95,138,.06)", display:"flex", alignItems:"center", justifyContent:"space-between" }}>
         <img src={LOGO_DARK} alt="Makia Capital" style={{ height:"32px" }} />
         <a href="/" style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"12px", letterSpacing:"1.5px", textTransform:"uppercase", color:C.light, textDecoration:"none" }}>← Back to Home</a>
       </header>
 
       {/* Hero */}
-      <section style={{ padding:"80px 48px 60px", textAlign:"center", borderBottom:"0.5px solid rgba(58,95,138,.06)" }}>
-        <h1 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"44px", fontWeight:300, color:C.navy, marginBottom:"16px" }}>
+      <section className="p-sp" style={{ padding:"80px 48px 60px", textAlign:"center", borderBottom:"0.5px solid rgba(58,95,138,.06)" }}>
+        <h1 className="p-hero-h" style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"44px", fontWeight:300, color:C.navy, marginBottom:"16px" }}>
           Pitch Your Company to <span style={{ color:C.gold, fontStyle:"italic" }}>Makia Capital</span>
         </h1>
         <p style={{ fontSize:"15px", color:C.light, maxWidth:"520px", margin:"0 auto 32px", lineHeight:1.6, fontWeight:300 }}>
@@ -111,10 +124,10 @@ export default function PitchToUs() {
       </section>
 
       {/* What We Look For */}
-      <section style={{ padding:"60px 48px", borderBottom:"0.5px solid rgba(58,95,138,.06)" }}>
+      <section className="p-sp" style={{ padding:"60px 48px", borderBottom:"0.5px solid rgba(58,95,138,.06)" }}>
         <div style={{ maxWidth:"900px", margin:"0 auto" }}>
           <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"10px", letterSpacing:"3px", textTransform:"uppercase", color:C.gold, marginBottom:"20px" }}>What We Look For</div>
-          <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"20px 48px" }}>
+          <div className="p-grid-2" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"20px 48px" }}>
             {[
               "Inflection-stage companies with visible, scalable growth ahead",
               "Strong governance and disciplined financial practices",
@@ -131,21 +144,23 @@ export default function PitchToUs() {
       </section>
 
       {/* Founder Promise */}
-      <section style={{ padding:"48px 48px", background:C.page, borderBottom:"0.5px solid rgba(58,95,138,.06)" }}>
-        <div style={{ maxWidth:"900px", margin:"0 auto", display:"flex", gap:"48px", alignItems:"center" }}>
-          <div style={{ flex:"0 0 200px", textAlign:"center" }}>
-            <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"48px", fontWeight:300, color:C.gold, lineHeight:1 }}>24h</div>
-            <div style={{ fontSize:"11px", letterSpacing:"2px", textTransform:"uppercase", color:C.light, marginTop:"8px" }}>Response Time</div>
-          </div>
-          <div style={{ flex:1, borderLeft:"0.5px solid rgba(58,95,138,.08)", paddingLeft:"40px" }}>
-            <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"22px", fontWeight:400, color:C.navy, lineHeight:1.5, marginBottom:"8px" }}>Most founders never hear back from investors. We actually reply within 24 hours.</p>
-            <p style={{ fontSize:"14px", color:C.light, fontWeight:300, lineHeight:1.6 }}>Even if it's a no, you'll know why. Every submission gets a thoughtful review — no ghosting, no black holes.</p>
+      <section className="p-sp" style={{ padding:"48px 48px", background:C.page, borderBottom:"0.5px solid rgba(58,95,138,.06)" }}>
+        <div style={{ maxWidth:"900px", margin:"0 auto" }}>
+          <div className="p-promise" style={{ display:"flex", gap:"48px", alignItems:"center" }}>
+            <div className="p-promise-left" style={{ flex:"0 0 200px", textAlign:"center" }}>
+              <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"48px", fontWeight:300, color:C.gold, lineHeight:1 }}>24h</div>
+              <div style={{ fontSize:"11px", letterSpacing:"2px", textTransform:"uppercase", color:C.light, marginTop:"8px" }}>Response Time</div>
+            </div>
+            <div className="p-promise-border" style={{ flex:1, borderLeft:"0.5px solid rgba(58,95,138,.08)", paddingLeft:"40px" }}>
+              <p style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"22px", fontWeight:400, color:C.navy, lineHeight:1.5, marginBottom:"8px" }}>Most founders never hear back from investors. We actually reply within 24 hours.</p>
+              <p style={{ fontSize:"14px", color:C.light, fontWeight:300, lineHeight:1.6 }}>Even if it's a no, you'll know why. Every submission gets a thoughtful review — no ghosting, no black holes.</p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Form / Success */}
-      <section id="form" style={{ padding:"60px 48px 80px" }}>
+      <section id="form" className="p-sp" style={{ padding:"60px 48px 80px" }}>
         {submitted ? (
           <div data-testid="pitch-success" style={{ maxWidth:"560px", margin:"0 auto", textAlign:"center" }}>
             <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"56px", color:C.gold, lineHeight:1, marginBottom:"24px" }}>&#10003;</div>
@@ -311,7 +326,7 @@ export default function PitchToUs() {
       </section>
 
       {/* Footer */}
-      <footer style={{ padding:"24px 48px", borderTop:"0.5px solid rgba(58,95,138,.06)", display:"flex", justifyContent:"space-between", alignItems:"center" }}>
+      <footer className="p-header" style={{ padding:"24px 48px", borderTop:"0.5px solid rgba(58,95,138,.06)", display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"8px" }}>
         <span style={{ fontSize:"12px", color:C.light, opacity:.5 }}>© 2026 Makia Capital</span>
         <span style={{ fontSize:"12px", color:C.light, opacity:.5 }}>info@makiacapital.com</span>
       </footer>
