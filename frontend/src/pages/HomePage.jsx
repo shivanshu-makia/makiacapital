@@ -50,8 +50,8 @@ function FAQ({ question, answer, isOpen, onClick }) {
       <span style={{ fontFamily: "'Cormorant Garamond',serif", fontSize: "18px", fontWeight: 500, color: "#0d1b2a", flex: 1 }}>{question}</span>
       <span style={{ fontSize: "24px", fontWeight: 300, color: "#c8a86e", marginLeft: "20px", transition: "transform .3s", transform: isOpen ? "rotate(45deg)" : "rotate(0)", lineHeight: 1 }}>+</span>
     </div>
-    <div style={{ maxHeight: isOpen ? "300px" : "0", overflow: "hidden", transition: "max-height .5s cubic-bezier(.25,.46,.45,.94)" }}>
-      <p style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "15px", lineHeight: 1.7, color: "#5a6d80", paddingBottom: "24px", margin: 0 }}>{answer}</p>
+    <div style={{ maxHeight: isOpen ? "1200px" : "0", overflow: "hidden", transition: "max-height .5s cubic-bezier(.25,.46,.45,.94)" }}>
+      <div style={{ fontFamily: "'DM Sans',sans-serif", fontSize: "15px", lineHeight: 1.7, color: "#5a6d80", paddingBottom: "24px", margin: 0 }}>{answer}</div>
     </div>
   </div>;
 }
@@ -148,13 +148,52 @@ export default function MakiaBlueGoldV3() {
     { q:"Makia has been instrumental in enabling access to highly lucrative investment opportunities that are typically out of reach for most investors.", n:"Investor", t:"AIF Limited Partner" },
   ];
 
+  const B = ({children}) => <ul style={{margin:"10px 0 10px 8px",padding:0,listStyle:"none"}}>{children}</ul>;
+  const Li = ({children}) => <li style={{padding:"3px 0",display:"flex",gap:"8px"}}><span style={{color:"#c8a86e",flexShrink:0}}>•</span><span>{children}</span></li>;
+  const Sub = ({children}) => <p style={{fontWeight:500,color:"#3a5f8a",margin:"14px 0 6px",fontSize:"14px"}}>{children}</p>;
+
   const faqs = [
-    { q:"What is Makia Capital?", a:"Makia Capital is India\u2019s leading IPO Advisor and Venture Capital Fund, specialising in advising and investing in curated high-potential companies, crafting strategic business roadmaps and guiding them towards public listing through the SME platform or a main-board IPO." },
-    { q:"What services does Makia offer?", a:"We provide end-to-end service from due diligence, valuations, fundraising, and pre- and post-IPO support. Our four key verticals are our SEBI-registered CAT I AIF, IPO Advisory & Execution, Debt Syndication, and Follow-On Issues for listed companies." },
-    { q:"What stage companies do you work with?", a:"We work primarily with growth-stage and pre-IPO companies across sectors. Whether you\u2019re 12 months from filing or need help structuring your first institutional raise, we tailor our engagement to your current stage and ambitions." },
-    { q:"Do you have a Merchant Banking licence?", a:"Yes. Backed by an in-house Merchant Banker, we have 15+ years of track record guiding businesses through the entire IPO journey, from initial planning to successful listing, ensuring a smooth and strategic entry into public markets." },
-    { q:"How does the AIF work?", a:"Our SEBI-registered CAT I AIF is a venture capital fund dedicated to investing in high-potential companies as they go public, helping both companies and investors unlock significant value during the IPO process." },
-    { q:"Who should reach out?", a:"Whether you\u2019re a high-potential startup, a growth-stage company, or an investor interested in opportunities within the IPO space, we\u2019d love to hear from you. Let\u2019s collaborate on funding opportunities and uncover exciting synergies." },
+    { q:"What does Makia Capital specialize in?", a:<>
+      <p style={{margin:"0 0 8px"}}>Our core focus areas include:</p>
+      <B><Li>Pre-IPO and SME IPO investments</Li><Li>Anchor and strategic investments</Li><Li>Private market deals</Li><Li>IPO advisory and execution support</Li><Li>Family Office and wealth advisory</Li><Li>Debt syndication</Li></B>
+      <p style={{margin:"10px 0 0"}}>We combine capital, advisory, and investor access into a single integrated platform.</p>
+    </>},
+    { q:"What kind of companies does Makia Capital invest in?", a:<>
+      <p style={{margin:"0 0 8px"}}>We invest in high-growth, fundamentally strong companies that are on a clear path to public markets.</p>
+      <p style={{margin:"8px 0 4px"}}>Our focus is on:</p>
+      <B><Li>Early to growth-stage companies with established profitability or near-term visibility</Li><Li>Businesses demonstrating strong revenue traction and scalability</Li><Li>Companies targeting an IPO within the next 2–3 years</Li><Li>Founders committed to strong corporate governance and transparency</Li></B>
+      <p style={{margin:"10px 0 0"}}>We work with a select set of companies where we can meaningfully contribute to their IPO journey.</p>
+    </>},
+    { q:"What all does Makia Capital help with in IPO advisory?", a:<>
+      <p style={{margin:"0 0 8px"}}>Makia Capital offers an end-to-end, integrated IPO support model:</p>
+      <Sub>Merchant Banking & Regulatory Execution</Sub>
+      <p style={{margin:"0 0 4px",fontSize:"14px"}}>Through our associated SEBI-registered merchant banking entity:</p>
+      <B><Li>DRHP drafting and filings</Li><Li>SEBI and stock exchange coordination</Li><Li>End-to-end regulatory compliance</Li></B>
+      <Sub>Capital & Anchor Participation</Sub>
+      <B><Li>Our in-house fund, Makia Venture Fund, participates as a lead or anchor investor</Li><Li>We facilitate participation from AIFs, institutional investors, and QIBs</Li></B>
+      <Sub>Strategic Positioning & Readiness</Sub>
+      <B><Li>IPO positioning and valuation strategy</Li><Li>Business and financial readiness assessment</Li><Li>Structuring for public markets</Li></B>
+      <Sub>Investor Relations & Market Visibility</Sub>
+      <B><Li>Pre-IPO investor outreach</Li><Li>IR and PR strategy</Li><Li>Institutional investor engagement</Li></B>
+    </>},
+    { q:"Do you hold a Merchant Banking license?", a:<>
+      <p>Makia Capital operates as an investment and advisory platform. For regulated merchant banking activities, we work through our associated SEBI-registered entity to ensure full compliance and seamless execution.</p>
+    </>},
+    { q:"How can investors participate in your opportunities?", a:<>
+      <p>Select investors can access curated opportunities across pre-IPO, anchor, and private market deals. Participation is subject to eligibility, regulatory requirements, and deal-specific criteria.</p>
+    </>},
+    { q:"Who typically works with Makia Capital?", a:<>
+      <p style={{margin:"0 0 4px"}}>We work with:</p>
+      <B><Li>High Net Worth and Ultra HNI investors</Li><Li>Family Offices</Li><Li>SME promoters and founders</Li><Li>Institutional investors and intermediaries</Li></B>
+    </>},
+    { q:"What differentiates Makia Capital?", a:<>
+      <p style={{margin:"0 0 8px"}}>Our differentiation lies in combining capital, advisory, and investor access:</p>
+      <B><Li>In-house investment capability through Makia Venture Fund</Li><Li>Integrated IPO execution via merchant banking partnerships</Li><Li>Strong network of AIFs, QIBs, and institutional investors</Li><Li>Hands-on involvement in positioning companies for public markets</Li></B>
+      <p style={{margin:"10px 0 0"}}>We don't just advise — we invest, structure, and scale alongside our partners.</p>
+    </>},
+    { q:"How can I get in touch or explore opportunities?", a:<>
+      <p>You can reach us at <a href="mailto:team@makiacapital.com" style={{color:"#3a5f8a",textDecoration:"none",fontWeight:500}} onClick={e=>e.stopPropagation()}>team@makiacapital.com</a>, or through our website or request a callback. Our team will connect with you to understand your requirements and explore relevant opportunities.</p>
+    </>},
   ];
 
   const portcos = ["Portfolio Co. 1","Portfolio Co. 2","Portfolio Co. 3","Portfolio Co. 4","Portfolio Co. 5","Portfolio Co. 6"];
