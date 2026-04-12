@@ -142,10 +142,10 @@ export default function MakiaBlueGoldV3() {
   ];
 
   const testimonials = [
-    { q:"Our co-investing journey with Makia has been remarkable. Their team\u2019s sharp investment acumen and ability to make informed decisions with a long-term perspective have been invaluable.", n:"Co-Investor", t:"Investment Partner" },
-    { q:"I\u2019ve known the Makia Team a long time now, and their passion, commitment, and strong ethics continue to inspire confidence in every partnership we build.", n:"Industry Partner", t:"Strategic Advisor" },
-    { q:"Makia has been a tremendous pillar of support to our portfolio companies, helping them achieve significant milestones and unlock their true potential.", n:"Portfolio Company", t:"Growth-Stage Enterprise" },
-    { q:"Makia has been instrumental in enabling access to highly lucrative investment opportunities that are typically out of reach for most investors.", n:"Investor", t:"AIF Limited Partner" },
+    { q:"Our co-investing journey with Makia has been remarkable. Their team\u2019s sharp investment acumen and ability to make informed decisions with a long-term perspective have been invaluable.", n:"Manick Wadhwa", t:"Director, SKI Capital" },
+    { q:"I\u2019ve known the Makia Team a long time now, and their passion, commitment, and strong ethics continue to inspire confidence in every partnership we build.", n:"Raman Chandna", t:"Head of Fund Management, Grip" },
+    { q:"Makia has been a tremendous pillar of support to our portfolio companies, helping them achieve significant milestones and unlock their true potential.", n:"Prashant Narang", t:"Founder, Agility Ventures" },
+    { q:"Makia has been instrumental in enabling access to highly lucrative investment opportunities that are typically out of reach for most investors. Their expertise truly sets them apart.", n:"Gaurav Rakyan", t:"Managing Director, Rising Straits Capital" },
   ];
 
   const B = ({children}) => <ul style={{margin:"10px 0 10px 8px",padding:0,listStyle:"none"}}>{children}</ul>;
