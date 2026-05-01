@@ -12,8 +12,8 @@ function useInView(threshold = 0.1) {
     );
     obs.observe(el);
     return () => obs.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return [ref, visible];
 }
 
 function Reveal({ children, delay = 0, direction = "up", style = {} }) {
