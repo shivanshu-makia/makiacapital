@@ -196,7 +196,13 @@ export default function MakiaBlueGoldV3() {
     </>},
   ];
 
-  const portcos = ["Portfolio Co. 1","Portfolio Co. 2","Portfolio Co. 3","Portfolio Co. 4","Portfolio Co. 5","Portfolio Co. 6"];
+  const portcos = [
+    { name:"Alde Medi Impex", logo:"/images/portfolio-alde-medi.png" },
+    { name:"Alpex Solar", logo:"/images/portfolio-alpex-solar.webp" },
+    { name:"Ashwini Containers", logo:"/images/portfolio-ashwini.webp" },
+    { name:"CashUrDrive", logo:"/images/portfolio-cashurdrive.jpg" },
+    { name:"Cric Studio", logo:"/images/portfolio-cricstudio.png" },
+  ];
   const C = { navy:"#0f1a4e", deep:"#1b2858", mid:"#2d4a6f", steel:"#3a5f8a", light:"#7a8fa6", gold:"#c8a86e", page:"#f7f9fb", white:"#fff" };
 
   return (
@@ -348,7 +354,7 @@ export default function MakiaBlueGoldV3() {
           <div style={{ position:"absolute", left:0, top:0, width:"120px", height:"100%", background:`linear-gradient(90deg,${C.white},transparent)`, zIndex:2 }} />
           <div style={{ position:"absolute", right:0, top:0, width:"120px", height:"100%", background:`linear-gradient(270deg,${C.white},transparent)`, zIndex:2 }} />
           <div style={{ display:"flex", gap:"60px", alignItems:"center", animation:"marquee 20s linear infinite", width:"fit-content" }}>
-            {[...portcos,...portcos].map((n,i)=><div key={i} style={{ minWidth:"180px", height:"80px", border:"0.5px solid rgba(58,95,138,.08)", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"'DM Sans',sans-serif", fontSize:"14px", color:C.light, letterSpacing:"1px", background:C.page }}>{n}</div>)}
+            {[...portcos,...portcos].map((p,i)=><div key={i} style={{ minWidth:"180px", height:"80px", border:"0.5px solid rgba(58,95,138,.08)", display:"flex", alignItems:"center", justifyContent:"center", background:C.page, padding:"12px 20px" }}><img src={p.logo} alt={p.name} style={{ maxHeight:"56px", maxWidth:"150px", objectFit:"contain" }} /></div>)}
           </div>
         </div>
         <FineLine />

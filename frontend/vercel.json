@@ -3,5 +3,8 @@
   "buildCommand": "npm install --legacy-peer-deps && CI=false NODE_OPTIONS=--openssl-legacy-provider npm run build",
   "outputDirectory": "build",
   "installCommand": "echo skip",
-  "framework": null
+  "framework": null,
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
 }

@@ -75,21 +75,7 @@ export const POSTS = [
       { kind:"text", heading:"The Investment Implication", text:"The opportunity in SME and small cap investing is precisely this structural ignorance. Patient capital that enters before the re-rating cycle captures both fundamental growth and valuation expansion.\n\nAt Makia, this is not a thesis. It is the operating framework behind every investment decision in our AIF.", callout:"Fundamentals determine how far a stock can go. Liquidity determines when it gets there." },
       { kind:"pitch" },
     ],
-  },
-  {
-    id:"blog-01", type:"Blog", label:"Capital Letters \u00b7 Vol. 01", date:"10 Mar 2026", isoDate:"2026-03-10", readTime:"5 min",
-    title:"Tips Can\u2019t Be Your Thesis",
-    excerpt:"My father lost money in 2008 following a tip from a friend at a dinner table. The stock was \u2018certain to double.\u2019 I was 16. That evening taught me something it took a decade to properly articulate.",
-    tags:["Investing","First Principles","Personal"],
-    keyStats:null,
-    body:[
-      { kind:"text", heading:"", text:"My father lost money in 2008 following a tip from a friend at a dinner table. The stock was \u2018certain to double.\u2019 It had a good promoter, someone had seen the quarterly numbers, there was a block deal coming. All the ingredients of conviction \u2014 without any of the work.\n\nI was 16. That evening taught me something it took a decade to properly articulate." },
-      { kind:"text", heading:"The Tip Economy", text:"The Indian retail investing ecosystem runs on tips. WhatsApp groups, Telegram channels, YouTube thumbnails, Twitter threads \u2014 all of it is a tip economy. The format has evolved. The underlying behaviour hasn\u2019t.\n\nA tip is information without context, conviction without research, and action without ownership. The person who gives it rarely has skin in the game. The person who acts on it always does." },
-      { kind:"text", heading:"What a Thesis Actually Looks Like", text:"A thesis is not a view. A view is \u2018I think the market will go up.\u2019 A thesis is \u2018I believe Company X will deliver 25% earnings CAGR over 3 years because of these specific structural tailwinds, FCF conversion is improving, management has demonstrated capital allocation discipline, and the stock is available at a discount to fair value.\u2019\n\nA thesis has a falsifying condition. You know what would prove you wrong. A tip has none." },
-      { kind:"text", heading:"What This Means for You", text:"If you cannot write three sentences explaining why you own a stock \u2014 the business model, the valuation basis, and the risk \u2014 you don\u2019t own an investment. You own a bet.\n\nBets can work. They just can\u2019t be your thesis.\n\nThis newsletter exists to build frameworks, not distribute tips.", callout:"If you cannot write three sentences explaining why you own a stock, you don\u2019t own an investment. You own a bet." },
-      { kind:"pitch" },
-    ],
-  },
+  }
 ];
 
 export const TYPE_COLORS = { Newsletter: "#3a5f8a", Research: "#c8a86e", Blog: "#0f1a4e" };
