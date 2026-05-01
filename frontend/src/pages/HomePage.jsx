@@ -202,6 +202,9 @@ export default function MakiaBlueGoldV3() {
     { name:"Ashwini Containers", logo:"/images/portfolio-ashwini.webp" },
     { name:"CashUrDrive", logo:"/images/portfolio-cashurdrive.jpg" },
     { name:"Cric Studio", logo:"/images/portfolio-cricstudio.png" },
+    { name:"Pioneer Fabricators", logo:"/images/portfolio-pioneer.webp" },
+    { name:"Rajesh Power", logo:"/images/portfolio-rajeshpower.png" },
+    { name:"SG Finserve", logo:"/images/portfolio-sgfinserve.jpg" },
   ];
   const C = { navy:"#0f1a4e", deep:"#1b2858", mid:"#2d4a6f", steel:"#3a5f8a", light:"#7a8fa6", gold:"#c8a86e", page:"#f7f9fb", white:"#fff" };
 
