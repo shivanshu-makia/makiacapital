@@ -18,9 +18,16 @@ Complete website with Homepage, About Us, Pitch to Us, Insights pages + Markdown
 - `/about` — About Us (perspective, thesis, founders, leadership, process, disclosures)
 - `/pitch` — Pitch To Us (4-step form → saves to MongoDB + emails via Formspree)
 - `/insights` — Insights listing (rich posts from insightsData.js + markdown blog posts from blog-index.json)
-- `/insights/:slug` — Individual blog post pages (markdown rendered, cover image, author)
+- `/insights/:slug` — Individual insight/blog post pages (handles both rich POSTS and markdown blogs via unified route)
 - `/admin/login` — Admin login
 - `/admin` — Admin dashboard (lead stats, table, status management)
+
+### Unique URL Routing for All Insights (Fixed May 2026)
+- All insight types (Newsletter, Research, Blog) now navigate to unique URLs `/insights/:slug`
+- Rich posts (Newsletter/Research) from `insightsData.js` have `slug` field
+- `BlogPostPage.jsx` handles both rich posts (data-driven) and markdown blog posts (fetched at runtime)
+- Nonexistent slugs show "Post not found" with Back to Insights link
+- SPA fallback detection: checks fetched content isn't HTML before treating as markdown
 
 ### Blog CMS
 - Markdown files in `/public/content/blogs/*.md`
@@ -58,5 +65,7 @@ All pages fully responsive at 390px viewport
 4. Push to GitHub and redeploy — the build script auto-generates the index
 
 ## Backlog
+- **P1**: E2E testing for Lead Submission → Admin Dashboard flow
 - **P2**: Email notifications via backend (SendGrid/Resend) — deferred
 - **P2**: Admin dashboard Insights management tab
+- **P2**: Social sharing buttons on insight detail pages

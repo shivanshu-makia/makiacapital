@@ -253,6 +253,10 @@ function MarkdownPostDetail({ slug }) {
     fetch(`/content/blogs/${slug}.md`)
       .then(r => { if (!r.ok) throw new Error("Not found"); return r.text(); })
       .then(raw => {
+        // SPA fallback may return index.html with 200 for missing files
+        if (raw.trim().startsWith('<!') || raw.trim().startsWith('<html')) {
+          throw new Error("Not a markdown file");
+        }
         const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
         if (!match) { setPost({ content: raw }); setLoading(false); return; }
         const meta = {};
