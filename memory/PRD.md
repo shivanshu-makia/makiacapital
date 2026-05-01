@@ -35,6 +35,16 @@ Complete website with Homepage, About Us, Pitch to Us, Insights pages + Markdown
 - Improved error messages surface API error details instead of generic message
 - 32/32 backend tests pass, all frontend flows verified
 
+### Backend Deployment for Railway/Render (Added May 2026)
+- `Procfile` for Heroku/Railway: `web: uvicorn server:app --host 0.0.0.0 --port ${PORT:-8001}`
+- `railway.json` with NIXPACKS builder, healthcheck, restart policy
+- `DEPLOY.md` with step-by-step Railway and Render instructions
+- User must deploy backend separately and set `REACT_APP_BACKEND_URL` in Vercel
+
+### Blog Cleanup (May 2026)
+- Deleted "Capital Letters Vol. 01 — Tips Can't Be Your Thesis" blog post
+- Only Vol. 02 (unpublished draft) remains in `/content/blogs/`
+
 ### Blog CMS
 - Markdown files in `/public/content/blogs/*.md`
 - Frontmatter: title, slug, date, excerpt, coverImage, category, author, published
