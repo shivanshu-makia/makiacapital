@@ -61,28 +61,29 @@ export default function PitchToUs() {
         services: form.services,
         raise_amount: form.raiseAmount || null,
       };
-      await axios.post(`${API}/leads`, payload);
-      // Also send to Formspree for email notification
+      // Send to Formspree first (always available, delivers email)
+      await axios.post("https://formspree.io/f/xbdwjejg", {
+        _subject: `New Pitch: ${payload.company}`,
+        company: payload.company,
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone,
+        sector: payload.sector || "N/A",
+        website: payload.website || "N/A",
+        pitch_mode: payload.pitch_mode,
+        services: (payload.services || []).join(", "),
+        revenue: payload.revenue || "N/A",
+        ebitda: payload.ebitda || "N/A",
+        raise_amount: payload.raise_amount || "N/A",
+        what_do: payload.what_do || "N/A",
+        biz_model: payload.biz_model || "N/A",
+        differentiator: payload.differentiator || "N/A",
+      });
+      // Also save to backend DB (optional — may not be available on static hosting)
       try {
-        await axios.post("https://formspree.io/f/xbdwjejg", {
-          _subject: `New Pitch: ${payload.company}`,
-          company: payload.company,
-          name: payload.name,
-          email: payload.email,
-          phone: payload.phone,
-          sector: payload.sector || "N/A",
-          website: payload.website || "N/A",
-          pitch_mode: payload.pitch_mode,
-          services: (payload.services || []).join(", "),
-          revenue: payload.revenue || "N/A",
-          ebitda: payload.ebitda || "N/A",
-          raise_amount: payload.raise_amount || "N/A",
-          what_do: payload.what_do || "N/A",
-          biz_model: payload.biz_model || "N/A",
-          differentiator: payload.differentiator || "N/A",
-        });
-      } catch (formspreeErr) {
-        console.warn("Formspree notification failed (lead still saved):", formspreeErr);
+        await axios.post(`${API}/leads`, payload);
+      } catch (backendErr) {
+        console.warn("Backend save failed (lead still sent via email):", backendErr);
       }
       setSubmitted(true);
     } catch (err) {
