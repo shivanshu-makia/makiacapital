@@ -86,7 +86,9 @@ export default function PitchToUs() {
       }
       setSubmitted(true);
     } catch (err) {
-      setSubmitError("Something went wrong. Please try again.");
+      const detail = err?.response?.data?.detail;
+      const msg = Array.isArray(detail) ? detail.map(d => d.msg).join(", ") : (typeof detail === "string" ? detail : "Something went wrong. Please try again.");
+      setSubmitError(msg);
       console.error("Submit error:", err);
     } finally {
       setSubmitting(false);

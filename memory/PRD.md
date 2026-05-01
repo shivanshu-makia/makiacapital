@@ -29,6 +29,12 @@ Complete website with Homepage, About Us, Pitch to Us, Insights pages + Markdown
 - Nonexistent slugs show "Post not found" with Back to Insights link
 - SPA fallback detection: checks fetched content isn't HTML before treating as markdown
 
+### Lead Submission E2E (Verified May 2026)
+- Full 4-step pitch form → backend API + Formspree dual submission
+- Admin Dashboard shows submitted leads with status management
+- Improved error messages surface API error details instead of generic message
+- 32/32 backend tests pass, all frontend flows verified
+
 ### Blog CMS
 - Markdown files in `/public/content/blogs/*.md`
 - Frontmatter: title, slug, date, excerpt, coverImage, category, author, published
