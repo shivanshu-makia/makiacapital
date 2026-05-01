@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { POSTS, GEO_ITEMS, INSIGHTS_COLORS as C, TYPE_COLORS } from "../data/insightsData";
+import { POSTS, INSIGHTS_COLORS as C, TYPE_COLORS } from "../data/insightsData";
 
 function useInView() {
   const ref = useRef(null), [v, setV] = useState(false);
@@ -21,117 +21,12 @@ function Pill({ type }) {
   return <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: TYPE_COLORS[type], borderLeft: `2px solid ${TYPE_COLORS[type]}`, paddingLeft: 9 }}>{type}</span>;
 }
 
-function DataTable({ heading, headers, rows, note }) {
-  return (
-    <div style={{ marginBottom: 44 }}>
-      {heading && <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 14, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>{heading}</h2>}
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ background: C.navy }}>
-              {headers.map(h => <th key={h} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,.7)", padding: "11px 13px", textAlign: "left", fontWeight: 500, whiteSpace: "nowrap" }}>{h}</th>)}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, ri) => (
-              <tr key={ri} style={{ background: ri % 2 === 0 ? C.white : C.page }}>
-                {row.map((cell, ci) => {
-                  const neg = cell.startsWith("\u2013") || cell.startsWith("-");
-                  const pos = cell.startsWith("+");
-                  return <td key={ci} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 12, color: neg ? C.red : pos ? "#27ae60" : C.navy, padding: "11px 13px", border: `0.5px solid ${C.line}`, fontWeight: neg || pos ? 500 : 300 }}>{cell}</td>;
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {note && <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light, lineHeight: 1.6, marginTop: 8, fontStyle: "italic" }}>{note}</p>}
-    </div>
-  );
-}
-
-function GeoGrid() {
-  const [open, setOpen] = useState(null);
-  return (
-    <div style={{ marginBottom: 44 }}>
-      <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 6, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>Global & Geopolitical Developments — March 2026</h2>
-      <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light, marginBottom: 16 }}>Tap any item to expand the India impact.</p>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: C.line }} className="i-geo-grid">
-        {GEO_ITEMS.map((item, i) => {
-          const isOpen = open === i;
-          return (
-            <div key={i} onClick={() => setOpen(isOpen ? null : i)} style={{ background: isOpen ? C.navy : C.white, cursor: "pointer", padding: "16px 18px", transition: "background .2s" }}>
-              <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                <span style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 13, color: isOpen ? C.gold : C.light, flexShrink: 0, minWidth: 22 }}>{item.n}</span>
-                <div style={{ flex: 1 }}>
-                  <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 12, fontWeight: 500, color: isOpen ? C.white : C.navy, lineHeight: 1.4, marginBottom: isOpen ? 8 : 0 }}>{item.title}</p>
-                  {isOpen && <>
-                    <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: "rgba(255,255,255,.6)", lineHeight: 1.6, marginBottom: 8, fontWeight: 300 }}>{item.body}</p>
-                    <div style={{ borderTop: "0.5px solid rgba(255,255,255,.15)", paddingTop: 8, display: "flex", gap: 8 }}>
-                      <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: C.gold, flexShrink: 0, marginTop: 2 }}>India</span>
-                      <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.gold, lineHeight: 1.5, fontWeight: 300 }}>{item.india}</p>
-                    </div>
-                  </>}
-                </div>
-                <span style={{ color: isOpen ? "rgba(255,255,255,.4)" : C.light, fontSize: 18, transition: "transform .2s", transform: isOpen ? "rotate(45deg)" : "none" }}>+</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function PitchBlock() {
-  return (
-    <div className="i-pitch-block" style={{ margin: "44px 0", background: C.navy, padding: "36px 40px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 28, flexWrap: "wrap" }}>
-      <div>
-        <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: C.gold, marginBottom: 8 }}>Building Something?</p>
-        <h3 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 24, fontWeight: 300, color: C.white, lineHeight: 1.3, maxWidth: 400 }}>If this research speaks to the market you're building in — <em style={{ color: C.gold }}>we'd like to hear from you.</em></h3>
-      </div>
-      <div>
-        <Link to="/pitch" data-testid="insights-pitch-cta" style={{ display: "block", fontFamily: "DM Sans,sans-serif", fontSize: 11, letterSpacing: 2, textTransform: "uppercase", color: C.navy, background: C.gold, padding: "13px 26px", textDecoration: "none", fontWeight: 500, marginBottom: 8 }}>Pitch to Makia →</Link>
-        <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, color: "rgba(255,255,255,.3)" }}>We reply to every submission — even if it's a no.</p>
-      </div>
-    </div>
-  );
-}
-
-function renderBlock(b, i) {
-  switch (b.kind) {
-    case "table": return <DataTable key={i} heading={b.heading} headers={b.headers} rows={b.rows} note={b.note} />;
-    case "geo":   return <GeoGrid key={i} />;
-    case "pitch": return <PitchBlock key={i} />;
-    case "case":
-    case "text":  return (
-      <div key={i} style={{ marginBottom: 40 }}>
-        {b.heading && <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 14, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>{b.heading}</h2>}
-        {b.kind === "case" && <div style={{ background: C.page, borderTop: `2px solid ${C.gold}`, border: `0.5px solid ${C.line}`, padding: "6px 14px", marginBottom: 12, display: "inline-block" }}><span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.gold }}>Case Study</span></div>}
-        {b.text && b.text.split("\n\n").map((p, pi) => <p key={pi} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 15, color: "#2a3a5a", lineHeight: 1.8, fontWeight: 300, marginBottom: 14 }}>{p}</p>)}
-        {b.callout && <div style={{ borderLeft: `3px solid ${C.gold}`, padding: "16px 20px", margin: "20px 0", background: C.goldBg }}><p style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 19, fontStyle: "italic", color: C.navy, lineHeight: 1.5 }}>{b.callout}</p></div>}
-      </div>
-    );
-    case "bullets": return (
-      <div key={i} style={{ marginBottom: 40 }}>
-        {b.heading && <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 14, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>{b.heading}</h2>}
-        {b.bullets.map((bl, bi) => <div key={bi} style={{ display: "flex", gap: 14, marginBottom: 16 }}><span style={{ color: C.gold, fontFamily: "Cormorant Garamond,serif", fontSize: 18, flexShrink: 0, marginTop: 2 }}>—</span><p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 15, color: "#2a3a5a", lineHeight: 1.8, fontWeight: 300, margin: 0 }}>{bl}</p></div>)}
-      </div>
-    );
-    case "disclaimer": return (
-      <div key={i} style={{ marginTop: 40, borderTop: `0.5px solid ${C.line}`, paddingTop: 20 }}>
-        <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light, lineHeight: 1.65, fontStyle: "italic" }}>This document is prepared by Makia Capital (Makia Partners LLP) for informational purposes only and does not constitute investment advice. SEBI Reg. AIF – IN/AIF1/24-25/1666.</p>
-      </div>
-    );
-    default: return null;
-  }
-}
-
-function Card({ post, onClick, i }) {
+function Card({ post, i }) {
   const [hov, setHov] = useState(false);
+  const nav = useNavigate();
   return (
     <Fade delay={i * 70}>
-      <div data-testid={`insight-card-${post.id}`} onClick={() => onClick(post)} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+      <div data-testid={`insight-card-${post.id}`} onClick={() => nav(`/insights/${post.slug}`)} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
         className="i-card-grid" style={{ borderTop: `0.5px solid ${C.line}`, padding: "28px 0", cursor: "pointer", display: "grid", gridTemplateColumns: "1fr auto", gap: 28, alignItems: "start" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
@@ -259,7 +154,7 @@ function InsightFooter() {
   );
 }
 
-function List({ onOpen }) {
+function List() {
   const [tab, setTab] = useState("All");
   const [blogPosts, setBlogPosts] = useState([]);
 
@@ -299,7 +194,7 @@ function List({ onOpen }) {
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
           {allItems.map((item, i) =>
             item.kind === "rich"
-              ? <Card key={item.data.id} post={item.data} onClick={onOpen} i={i} />
+              ? <Card key={item.data.id} post={item.data} i={i} />
               : <BlogCard key={item.data.slug} post={item.data} i={i} />
           )}
           <div style={{ borderTop: `0.5px solid ${C.line}` }} />
@@ -310,70 +205,12 @@ function List({ onOpen }) {
   );
 }
 
-function Detail({ post, onBack }) {
-  useEffect(() => { window.scrollTo({ top: 0 }); }, []);
-  const stats = (post.keyStats || []).filter(s => s.value);
-  const cols = Math.min(stats.length, 3);
-  return (
-    <>
-      <section data-testid="insight-detail-hero" style={{ paddingTop: 100, paddingBottom: 52, background: C.white, borderBottom: `0.5px solid ${C.line}` }}>
-        <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 5%", textAlign: "center" }}>
-          <Fade>
-            <button data-testid="back-to-insights-btn" onClick={onBack} style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "DM Sans,sans-serif", fontSize: 11, letterSpacing: 1, textTransform: "uppercase", color: C.light, marginBottom: 36, display: "inline-flex", alignItems: "center", gap: 6 }}>&larr; Back to Insights</button>
-          </Fade>
-          <Fade delay={60}>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 12, marginBottom: 18, flexWrap: "wrap" }}>
-              <Pill type={post.type} />
-              <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light }}>{post.label} · {post.date} · {post.readTime} read</span>
-            </div>
-          </Fade>
-          <Fade delay={110}><h1 data-testid="insight-detail-title" style={{ fontFamily: "Cormorant Garamond,serif", fontSize: "clamp(26px,4vw,44px)", fontWeight: 300, color: C.navy, lineHeight: 1.18, marginBottom: 18 }}>{post.title}</h1></Fade>
-          <Fade delay={170}><p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 14, color: C.light, lineHeight: 1.75, fontWeight: 300, maxWidth: 560, margin: "0 auto 24px" }}>{post.excerpt}</p></Fade>
-          <Fade delay={210}><div style={{ display: "flex", justifyContent: "center", gap: 7, flexWrap: "wrap" }}>{post.tags.map(t => <span key={t} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: C.light, border: `0.5px solid ${C.line}`, padding: "4px 10px" }}>{t}</span>)}</div></Fade>
-        </div>
-      </section>
-
-      {stats.length > 0 && (
-        <div data-testid="insight-key-stats" className="i-stat-grid" style={{ background: C.navy, display: "grid", gridTemplateColumns: `repeat(${cols},1fr)` }}>
-          {stats.map((s, i) => (
-            <div key={i} style={{ background: C.navy, padding: "26px 20px", textAlign: "center", borderRight: i < stats.length - 1 ? "1px solid rgba(255,255,255,.08)" : "none" }}>
-              <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,.35)", marginBottom: 7 }}>{s.label}</p>
-              <p style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 26, fontWeight: 500, color: C.gold, lineHeight: 1, marginBottom: 5 }}>{s.value}</p>
-              <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: "rgba(255,255,255,.33)", fontWeight: 300 }}>{s.sub}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
-      <article data-testid="insight-detail-body" className="i-detail-body" style={{ background: C.white, padding: "60px 5% 80px" }}>
-        <div style={{ maxWidth: 680, margin: "0 auto" }}>
-          {post.body.map((b, i) => renderBlock(b, i))}
-        </div>
-      </article>
-
-      <div style={{ background: C.page, padding: "44px 5%", borderTop: `0.5px solid ${C.line}` }}>
-        <div style={{ maxWidth: 680, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-          <div>
-            <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.light, marginBottom: 5 }}>Continue reading</p>
-            <p style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 18, color: C.navy, fontWeight: 300 }}>More from the Makia desk</p>
-          </div>
-          <button data-testid="all-insights-btn" onClick={onBack} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, letterSpacing: 1.5, textTransform: "uppercase", color: C.white, background: C.navy, padding: "12px 26px", border: "none", cursor: "pointer" }}>&larr; All Insights</button>
-        </div>
-      </div>
-    </>
-  );
-}
-
 export default function InsightsPage() {
-  const [post, setPost] = useState(null);
-  const open = p => { setPost(p); window.scrollTo({ top: 0 }); };
-  const back = () => { setPost(null); window.scrollTo({ top: 0 }); };
-
   return (
     <div data-testid="insights-page" style={{ background: C.page, minHeight: "100vh" }}>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');`}</style>
       <InsightNav />
-      {!post ? <List onOpen={open} /> : <Detail post={post} onBack={back} />}
+      <List />
       <InsightFooter />
     </div>
   );

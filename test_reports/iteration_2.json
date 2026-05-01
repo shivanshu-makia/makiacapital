@@ -1,0 +1,32 @@
+{
+  "summary": "Frontend-only testing of Insights unique-URL routing fix. 9/10 requested flows pass. One bug: direct access to nonexistent slugs renders raw SPA HTML instead of 'Post not found' UI because /content/blogs/<slug>.md returns 200 via SPA fallback, so fetch().ok === true and the error branch never fires.",
+  "backend_issues": { "critical": [], "minor": [] },
+  "frontend_issues": {
+    "ui_bugs": [
+      {
+        "component": "BlogPostPage.jsx > MarkdownPostDetail",
+        "issue": "Direct URL to /insights/<nonexistent-slug> does not show 'Post not found'. fetch('/content/blogs/<slug>.md') returns 200 with index.html due to SPA fallback; r.ok is true so error state is never set. The raw HTML is then set as post.content and rendered by ReactMarkdown, producing a broken page that shows '<!doctype html>...' text.",
+        "selector": "body at /insights/nonexistent-slug-xyz",
+        "priority": "HIGH"
+      }
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Fix MarkdownPostDetail error handling in /app/frontend/src/pages/BlogPostPage.jsx: after fetch, also check that response content-type starts with 'text/markdown' OR that the raw text does not start with '<!doctype' / '<html', OR require frontmatter match (no '---' header => treat as not found). Without this, any 404 slug renders raw SPA HTML instead of the friendly 'Post not found' message with Back link."
+  ],
+  "critical_code_review_comments": [
+    "BlogPostPage.jsx line 254-273: fetch error handling relies solely on r.ok which is unreliable with SPA fallback. Add a content-type / prefix check or require frontmatter.",
+    "Minor: MarkdownPostDetail fetches markdown client-side on every slug change with no caching; acceptable for current scale but worth noting."
+  ],
+  "updated_files": [],
+  "success_rate": { "backend": "not tested (skipped per request)", "frontend": "90% (9/10 requested flows pass)" },
+  "test_credentials": { "admin_email": "admin@makiacapital.com", "admin_password": "Makia@2026" },
+  "seed_data_creation": "None (used existing admin).",
+  "retest_needed": true,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Routing refactor works end-to-end. POSTS rich posts have slug field and navigate correctly; markdown blog posts also navigate correctly. Only remaining issue is nonexistent-slug fallback in MarkdownPostDetail. Test selectors: insight-card-mmp-mar26, insight-card-mrs-smallcaps, blog-card-capital-letters-vol-01, back-to-insights-btn (rich), back-to-insights (markdown link), tab-all/newsletter/research/blog, admin-email-input, admin-password-input, admin-login-btn.",
+  "rca of the issue": "In production/preview, the frontend ingress serves index.html for any unknown path, including missing files under /content/blogs/. fetch() therefore resolves with status=200 and body='<!doctype html>...'. The current code checks only r.ok, so the 404-like case slips through. Mitigation: check response headers['content-type'] includes 'markdown' OR verify raw.startsWith('---') / !raw.trim().startsWith('<'). Then setError(true) in the else branch."
+}

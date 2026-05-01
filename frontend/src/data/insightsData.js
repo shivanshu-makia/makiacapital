@@ -21,7 +21,7 @@ export const GEO_ITEMS = [
 
 export const POSTS = [
   {
-    id:"mmp-mar26", type:"Newsletter", label:"Makia Market Pulse", date:"30 Mar 2026", isoDate:"2026-03-30", readTime:"8 min",
+    id:"mmp-mar26", slug:"market-pulse-march-2026", type:"Newsletter", label:"Makia Market Pulse", date:"30 Mar 2026", isoDate:"2026-03-30", readTime:"8 min",
     title:"Market Pulse \u2014 March 2026: India\u2019s Worst Month in FY26",
     excerpt:"Nifty fell 11.3% (25,178 \u2192 22,331) \u2014 its sharpest monthly decline since Feb \u201922. Brent crossed $110/bbl, the rupee hit near-record lows, and FII outflows reached a FY26 high of \u20b91,11,377 Cr.",
     tags:["Capital Markets","FII/DII","Macro","IPO"],
@@ -56,7 +56,7 @@ export const POSTS = [
     ],
   },
   {
-    id:"mrs-smallcaps", type:"Research", label:"Makia Research Series", date:"15 Mar 2026", isoDate:"2026-03-15", readTime:"10 min",
+    id:"mrs-smallcaps", slug:"fundamentals-build-value-liquidity-unlocks-it", type:"Research", label:"Makia Research Series", date:"15 Mar 2026", isoDate:"2026-03-15", readTime:"10 min",
     title:"Fundamentals Build Value, Liquidity Unlocks It",
     excerpt:"Why does a company growing at 30% a year, with no debt and clean governance, trade at 10\u00d7 while large caps command 30\u201340\u00d7? The answer is structural \u2014 and understanding it is the edge most investors never develop.",
     tags:["SME","Small Cap","Liquidity","Valuation","AIF"],
