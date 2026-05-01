@@ -1,61 +1,62 @@
 # Makia Capital Website — PRD
 
 ## Original Problem Statement
-Build a complete website combining pre-designed React pages: Homepage, About Us, Pitch to Us, and Insights. Pages linked via React Router. Makia logo included globally. Backend captures and manages leads from "Pitch to Us" section. Admin Dashboard with login to view/manage leads (email notifications deferred for cost savings).
+Complete website with Homepage, About Us, Pitch to Us, Insights pages + Markdown Blog CMS + Admin Dashboard + Formspree email notifications. SEBI Registered AIF, Investment Banking.
 
 ## Architecture
-- **Frontend**: React + React Router DOM + Tailwind CSS (inline styles + media query classes)
+- **Frontend**: React (CRA + Craco) + React Router DOM + Inline styles with media queries
 - **Backend**: FastAPI + Motor (async MongoDB)
 - **Database**: MongoDB
-- **Auth**: JWT (httpOnly cookies + Bearer header fallback) + bcrypt
+- **Auth**: JWT + bcrypt
+- **Blog CMS**: Markdown files in `/public/content/blogs/` + build-time index generation
+- **Form Notifications**: Formspree (https://formspree.io/f/xbdwjejg) + Backend API
 
 ## What's Been Implemented
 
-### Pages (Frontend) — All Mobile Responsive
-- **Homepage** (`/`) — Hero, numbers, sectors marquee, portfolio, investment focus, services, testimonials, knowledge hub (shared data with Insights), FAQ, CTA, footer
-- **About Us** (`/about`) — Hero, perspective, thesis, founders, leadership, transactions, disclosures, CTA, footer. Mobile hamburger menu
-- **Pitch to Us** (`/pitch`) — 4-step multi-step form with POST to /api/leads
-- **Insights** (`/insights`) — Article list with filter tabs, article detail with rich content. Mobile hamburger menu
-- **Admin Login** (`/admin/login`) — Email/password login
-- **Admin Dashboard** (`/admin`) — Protected. Stats, leads table, status management, logout
+### Pages
+- `/` — Homepage (hero, numbers, sectors, portfolio, services, testimonials, knowledge hub, FAQs, CTA)
+- `/about` — About Us (perspective, thesis, founders, leadership, process, disclosures)
+- `/pitch` — Pitch To Us (4-step form → saves to MongoDB + emails via Formspree)
+- `/insights` — Insights listing (rich posts from insightsData.js + markdown blog posts from blog-index.json)
+- `/insights/:slug` — Individual blog post pages (markdown rendered, cover image, author)
+- `/admin/login` — Admin login
+- `/admin` — Admin dashboard (lead stats, table, status management)
 
-### Mobile Responsiveness (Feb 2026)
-- All pages: Section paddings collapse (100px→48px, 48px→20px horizontal)
-- Grids: Multi-column layouts stack to single column on <768px
-- Nav: Hamburger menus on all pages (Home, About, Insights)
-- Typography: Headlines scale down (42px→26-30px)
-- Tables: Horizontal scroll on overflow
-- Footer: Stacks vertically, centered text
-- Insights tabs: Horizontal scroll, smaller padding
-- Detail stats: 2-column grid on mobile
-- "Made with Emergent" badge removed
+### Blog CMS
+- Markdown files in `/public/content/blogs/*.md`
+- Frontmatter: title, slug, date, excerpt, coverImage, category, author, published
+- Build script (`scripts/build-blog-index.js`) generates `blog-index.json` at build time
+- Only `published: true` posts appear on the site
+- Sample posts: Vol. 01 (published), Vol. 02 (draft)
+
+### Formspree Integration
+- Pitch form POSTs to both backend API AND Formspree
+- Emails shivanshu@makiacapital.com on every submission
+- Viewable on Formspree dashboard
 
 ### Backend API
-- `POST /api/leads` — Public. Create lead
-- `GET /api/leads` — Protected. List leads
-- `GET /api/leads/stats/summary` — Protected. Stats by status
-- `GET/PATCH/DELETE /api/leads/{id}` — Protected. CRUD
-- `POST /api/auth/login` — Login with JWT
-- `GET /api/auth/me` — Current user
-- `POST /api/auth/logout` — Clear cookies
-- `POST /api/auth/refresh` — Refresh token
+- POST /api/leads (public), GET/PATCH/DELETE /api/leads (protected)
+- GET /api/leads/stats/summary (protected)
+- POST /api/auth/login, GET /api/auth/me, POST /api/auth/logout, POST /api/auth/refresh
 
-### Assets
-- Logo images with transparent backgrounds in `/public/images/`
-- Shared article data in `/src/data/insightsData.js`
-- Admin seeded on startup from .env
+### Mobile Responsive
+All pages fully responsive at 390px viewport
+
+### Deployment
+- `vercel.json` in `/frontend/` for Vercel deployment
+- Build: `node scripts/build-blog-index.js && NODE_OPTIONS=--openssl-legacy-provider craco build`
 
 ## DB Schema
-- **leads**: {id, company, website, sector, name, email, phone, pitch_mode, deck_filename, what_do, biz_model, customers, problem, differentiator, revenue, ebitda, fy, run_rate, services[], raise_amount, status, notes, created_at, updated_at}
+- **leads**: {id, company, website, sector, name, email, phone, pitch_mode, services[], status, notes, etc.}
 - **users**: {email, password_hash, name, role, created_at}
 - **login_attempts**: {identifier, count, locked_until}
 
-## Testing
-- Backend: 32/32 passed (iteration_1)
-- Frontend: All UI flows verified
-- Mobile: Verified on 390px viewport (iPhone 14 size)
+## How to Add New Blog Posts
+1. Create a `.md` file in `/frontend/public/content/blogs/`
+2. Add frontmatter (title, slug, date, excerpt, coverImage, category, author, published)
+3. Write content in markdown
+4. Push to GitHub and redeploy — the build script auto-generates the index
 
 ## Backlog
-- **P1**: Content Management API — POST/GET /api/insights for admin dashboard
-- **P2**: Email notifications (deferred per user request)
-- **P2**: Additional test coverage
+- **P2**: Email notifications via backend (SendGrid/Resend) — deferred
+- **P2**: Admin dashboard Insights management tab

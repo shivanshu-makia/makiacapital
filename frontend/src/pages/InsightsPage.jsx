@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { POSTS, GEO_ITEMS, INSIGHTS_COLORS as C, TYPE_COLORS } from "../data/insightsData";
 
 function useInView() {
@@ -150,6 +150,29 @@ function Card({ post, onClick, i }) {
   );
 }
 
+function BlogCard({ post, i }) {
+  const [hov, setHov] = useState(false);
+  const nav = useNavigate();
+  return (
+    <Fade delay={i * 70}>
+      <div data-testid={`blog-card-${post.slug}`} onClick={() => nav(`/insights/${post.slug}`)} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
+        className="i-card-grid" style={{ borderTop: `0.5px solid ${C.line}`, padding: "28px 0", cursor: "pointer", display: "grid", gridTemplateColumns: post.coverImage ? "120px 1fr auto" : "1fr auto", gap: 24, alignItems: "start" }}>
+        {post.coverImage && <div style={{ width: 120, height: 80, background: `url(${post.coverImage}) center/cover no-repeat`, borderRadius: 2, flexShrink: 0 }} />}
+        <div>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.steel, borderLeft: `2px solid ${C.steel}`, paddingLeft: 9 }}>{post.category}</span>
+            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light }}>{post.date}</span>
+          </div>
+          <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 23, fontWeight: 400, color: hov ? C.gold : C.navy, lineHeight: 1.25, marginBottom: 10, transition: "color .2s", maxWidth: 680 }}>{post.title}</h2>
+          <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 13, color: C.light, lineHeight: 1.7, fontWeight: 300, maxWidth: 640 }}>{post.excerpt}</p>
+          <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: C.light, border: `0.5px solid ${C.line}`, padding: "4px 10px", display: "inline-block", marginTop: 10 }}>{post.author}</span>
+        </div>
+        <span style={{ color: hov ? C.gold : C.steel, fontFamily: "DM Sans,sans-serif", fontSize: 13, transition: "color .2s", whiteSpace: "nowrap" }}>Read →</span>
+      </div>
+    </Fade>
+  );
+}
+
 function InsightNav() {
   const [solid, setSolid] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -238,8 +261,24 @@ function InsightFooter() {
 
 function List({ onOpen }) {
   const [tab, setTab] = useState("All");
-  const sorted = [...POSTS].sort((a, b) => b.isoDate.localeCompare(a.isoDate));
-  const shown = tab === "All" ? sorted : sorted.filter(p => p.type === tab);
+  const [blogPosts, setBlogPosts] = useState([]);
+
+  useEffect(() => {
+    fetch("/content/blog-index.json")
+      .then(r => r.json())
+      .then(posts => setBlogPosts(posts.filter(p => p.published)))
+      .catch(() => {});
+  }, []);
+
+  const richSorted = [...POSTS].sort((a, b) => b.isoDate.localeCompare(a.isoDate));
+  const richShown = tab === "All" || tab !== "Blog" ? (tab === "All" ? richSorted : richSorted.filter(p => p.type === tab)) : [];
+  const blogsShown = tab === "All" || tab === "Blog" ? blogPosts : [];
+
+  // Merge and sort all items by date
+  const allItems = [
+    ...richShown.map(p => ({ kind: "rich", data: p, date: p.isoDate })),
+    ...blogsShown.map(p => ({ kind: "blog", data: p, date: p.date })),
+  ].sort((a, b) => (b.date || "").localeCompare(a.date || ""));
   return (
     <>
       <section data-testid="insights-hero" className="i-sp" style={{ paddingTop: 132, paddingBottom: 60, background: C.white, borderBottom: `0.5px solid ${C.line}`, textAlign: "center" }}>
@@ -258,7 +297,11 @@ function List({ onOpen }) {
       </section>
       <section data-testid="insights-list" className="i-sp" style={{ background: C.white, padding: "0 5%" }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>
-          {shown.map((p, i) => <Card key={p.id} post={p} onClick={onOpen} i={i} />)}
+          {allItems.map((item, i) =>
+            item.kind === "rich"
+              ? <Card key={item.data.id} post={item.data} onClick={onOpen} i={i} />
+              : <BlogCard key={item.data.slug} post={item.data} i={i} />
+          )}
           <div style={{ borderTop: `0.5px solid ${C.line}` }} />
         </div>
       </section>

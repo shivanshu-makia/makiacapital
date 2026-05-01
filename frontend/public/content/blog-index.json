@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Capital Letters Vol. 02 — The Tesla Trade and What It Taught Me About Thesis-Building",
+    "slug": "capital-letters-vol-02",
+    "date": "2025-05-01",
+    "excerpt": "How a single position in Tesla reshaped my understanding of conviction, volatility, and the difference between a thesis and a hope.",
+    "coverImage": "/images/blogs/vol-02.jpg",
+    "category": "Capital Letters",
+    "author": "Shivanshu Birla",
+    "published": false,
+    "file": "capital-letters-vol-02.md"
+  },
+  {
+    "title": "Capital Letters Vol. 01 — Tips Can't Be Your Thesis",
+    "slug": "capital-letters-vol-01",
+    "date": "2025-04-15",
+    "excerpt": "Why acting on tips without a thesis is the fastest way to lose money in markets.",
+    "coverImage": "/images/blogs/vol-01.jpg",
+    "category": "Capital Letters",
+    "author": "Shivanshu Birla",
+    "published": true,
+    "file": "capital-letters-vol-01.md"
+  }
+]
