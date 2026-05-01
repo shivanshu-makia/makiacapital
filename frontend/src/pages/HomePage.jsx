@@ -130,6 +130,7 @@ export default function MakiaBlueGoldV3() {
   const [solid, setSolid] = useState(false);
 
   useEffect(() => { const h=()=>setSolid(window.scrollY>80); window.addEventListener("scroll",h,{passive:true}); return()=>window.removeEventListener("scroll",h); }, []);
+  useEffect(() => { document.title = "Makia Capital - India's Leading Full-Stack Investment Bank"; }, []);
   useEffect(() => { const t=setInterval(()=>setAT(p=>(p+1)%4),6000); return()=>clearInterval(t); }, []);
 
   const navLinks = [{ l:"About Us", h:"/about" },{ l:"Services", h:"#services" },{ l:"Insights", h:"/insights" },{ l:"Career", h:"#career" }];

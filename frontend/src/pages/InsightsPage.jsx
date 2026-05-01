@@ -206,6 +206,7 @@ function List() {
 }
 
 export default function InsightsPage() {
+  useEffect(() => { document.title = "Insights - Makia Capital | Research & Market Intelligence"; }, []);
   return (
     <div data-testid="insights-page" style={{ background: C.page, minHeight: "100vh" }}>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');`}</style>

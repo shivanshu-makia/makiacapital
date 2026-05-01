@@ -17,7 +17,8 @@ export default function PitchToUs() {
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
-  const [pitchMode, setPitchMode] = useState("upload"); // "upload" or "questions"
+  const [pitchMode, setPitchMode] = useState("upload");
+  useEffect(() => { document.title = "Pitch to Makia Capital | Submit Your Company"; }, []);
   const [form, setForm] = useState({
     company:"", website:"", sector:"", name:"", email:"", phone:"",
     deckFile:null,

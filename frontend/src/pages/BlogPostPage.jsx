@@ -272,6 +272,7 @@ function MarkdownPostDetail({ slug }) {
           }
         });
         setPost({ ...meta, content: match[2] });
+        document.title = `${meta.title || slug} - Makia Capital`;
         setLoading(false);
       })
       .catch(() => { setError(true); setLoading(false); });
@@ -346,6 +347,10 @@ export default function BlogPostPage() {
 
   // Check if slug matches a rich post (Newsletter/Research)
   const richPost = POSTS.find(p => p.slug === slug);
+
+  useEffect(() => {
+    if (richPost) document.title = `${richPost.title} - Makia Capital`;
+  }, [richPost]);
 
   return (
     <div data-testid="blog-post-page" style={{ background: C.page, minHeight: "100vh" }}>

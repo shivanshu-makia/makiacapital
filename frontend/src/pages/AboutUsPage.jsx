@@ -14,6 +14,7 @@ function useInView(threshold = 0.1) {
     return () => obs.disconnect();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  return [ref, visible];
 }
 
 function Reveal({ children, delay = 0, direction = "up", style = {} }) {
@@ -97,6 +98,7 @@ export default function MakiaAboutUs() {
   const [solid, setSolid] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
+    document.title = "About Us - Makia Capital | Full-Stack Investment Bank";
     const h = () => setSolid(window.scrollY > 80);
     window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
