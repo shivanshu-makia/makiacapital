@@ -1,0 +1,41 @@
+{
+  "summary": "E2E testing of Lead Submission → Admin Dashboard flow on preview URL. All requested flows PASS. Submitted lead via public form (4-step), admin logged in, lead visible in dashboard, status updated from new → reviewed successfully. All 32 backend tests (test_makia_api.py + test_makia_auth.py) pass. Form validation (step 1 continue disabled, step 4 submit disabled without service) works. /admin redirects to /admin/login when unauthenticated.",
+  "backend_issues": {
+    "critical": [],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": [
+    "/app/backend/tests/test_makia_api.py",
+    "/app/backend/tests/test_makia_auth.py",
+    "/app/test_reports/pytest/pytest_iteration3_api.xml",
+    "/app/test_reports/pytest/pytest_iteration3_auth.xml"
+  ],
+  "action_items": [
+    "User-reported 'Something went wrong' error could NOT be reproduced on preview URL. The /api/leads POST works correctly (returns 200 with the created lead). Most likely cause: user was on the Vercel/static deployment where REACT_APP_BACKEND_URL either points to a non-existent backend or the deployed build was not rebuilt after env change. Recommend: verify the production build's baked-in REACT_APP_BACKEND_URL and confirm the deployed frontend is pointing to a reachable FastAPI instance. Also consider exposing a user-visible error detail in handleSubmit catch block to aid debugging (currently generic).",
+    "Optional: AdminDashboard triggers /api/auth/me at mount before redirect — emits a 401 in browser console when landing on /admin unauthenticated. Harmless but visible. Could be silenced by catching 401 in auth-check."
+  ],
+  "critical_code_review_comments": [
+    "PitchToUsPage.jsx handleSubmit catch block swallows the real error and shows generic 'Something went wrong' — consider logging/displaying error.response.data.detail for quicker user diagnostics.",
+    "PitchToUsPage.jsx step 3 inputs (revenue, ebitda, fy) and step 4 (raise amount, referral, comments) lack data-testid attributes — adding them would make testing more robust (currently tests rely on placeholder selectors).",
+    "CORS in backend/.env is '*' with allow_credentials=True which is allowed because CORSMiddleware uses allow_origins=['*'] in code. Works but insecure for production — consider whitelisting explicit origins."
+  ],
+  "updated_files": [],
+  "success_rate": {
+    "backend": "100% (32/32 pytest tests pass)",
+    "frontend": "100% (all 8 requested flows pass)"
+  },
+  "test_credentials": {
+    "admin_email": "admin@makiacapital.com",
+    "admin_password": "Makia@2026"
+  },
+  "seed_data_creation": "Created one test lead TEST_E2E_8517 via UI, then cleaned up via DELETE /api/leads/{id}. 16 pre-existing seed leads untouched.",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Preview URL: https://website-builder-1263.preview.emergentagent.com. Backend end-to-end works (auth + CRUD leads + stats). Frontend pitch form at /pitch works, admin dashboard at /admin works. Lead status select uses data-testid=status-select-{id}. Form step inputs on step 3/4 don't have data-testids (only placeholders). Run backend tests with: REACT_APP_BACKEND_URL=https://website-builder-1263.preview.emergentagent.com pytest backend/tests/ -v",
+  "rca of the issue": "User-reported 'Something went wrong. Please try again.' was NOT reproducible on preview. On preview URL: form fills → POST /api/leads returns 200 → success screen 'Your pitch is with our team' displays correctly. The error message only fires if axios.post fails; backend is healthy and returns 200. Most probable root cause: (a) user was on a different deployment (Vercel) where REACT_APP_BACKEND_URL was unset/stale and the request went to a dead origin, OR (b) a stale cached JS bundle from a prior build. Mitigation: rebuild + redeploy frontend pinned to a working REACT_APP_BACKEND_URL; surface error.response.data in the catch block for easier future diagnostics."
+}
