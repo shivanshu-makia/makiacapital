@@ -55,7 +55,7 @@ function Line({ dark = false, style = {} }) {
   return <div style={{ width:"100%", height:"0.5px", background: dark ? "rgba(255,255,255,.07)" : "rgba(58,95,138,.08)", ...style }} />;
 }
 
-function FounderCard({ name, title, linkedIn, delay = 0 }) {
+function FounderCard({ name, title, linkedIn, image, delay = 0 }) {
   const [hov, setHov] = useState(false);
   const initials = name.split(" ").map(w => w[0]).join("");
   return (
@@ -63,9 +63,13 @@ function FounderCard({ name, title, linkedIn, delay = 0 }) {
       <div onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={{ border:`0.5px solid ${hov ? "rgba(58,95,138,.22)" : "rgba(58,95,138,.09)"}`, transition:"all .5s cubic-bezier(.22,.61,.36,1)", transform: hov ? "translateY(-5px)" : "translateY(0)", boxShadow: hov ? "0 20px 56px rgba(15,26,78,.07)" : "none", background:"#fff", overflow:"hidden", position:"relative" }}>
         <div style={{ position:"absolute", top:0, left:0, width:"100%", height:"2px", background:"linear-gradient(90deg,transparent,#3a5f8a,#c8a86e,transparent)", transform: hov ? "scaleX(1)" : "scaleX(0)", transformOrigin:"left", transition:"transform .55s cubic-bezier(.22,.61,.36,1)" }} />
         <div style={{ width:"100%", aspectRatio:"4/3", overflow:"hidden", background:"#e8edf2" }}>
-          <div style={{ width:"100%", height:"100%", background:"linear-gradient(160deg,#1b2858 0%,#3a5f8a 100%)", display:"flex", alignItems:"center", justifyContent:"center" }}>
-            <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"52px", fontWeight:300, color:"rgba(200,168,110,.45)", letterSpacing:"4px" }}>{initials}</span>
-          </div>
+          {image ? (
+            <img src={image} alt={name} style={{ width:"100%", height:"100%", objectFit:"cover", display:"block" }} />
+          ) : (
+            <div style={{ width:"100%", height:"100%", background:"linear-gradient(160deg,#1b2858 0%,#3a5f8a 100%)", display:"flex", alignItems:"center", justifyContent:"center" }}>
+              <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"52px", fontWeight:300, color:"rgba(200,168,110,.45)", letterSpacing:"4px" }}>{initials}</span>
+            </div>
+          )}
         </div>
         <div style={{ padding:"32px 36px 36px" }}>
           <h3 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"24px", fontWeight:500, color:"#0d1b2a", margin:"0 0 5px" }}>{name}</h3>
@@ -299,8 +303,8 @@ export default function MakiaAboutUs() {
             </h2>
           </Reveal>
           <div className="two-col" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"36px" }}>
-            <FounderCard name="Shivanshu Birla" title="Founding Partner" linkedIn="https://www.linkedin.com/in/shivanshubirla/" delay={0} />
-            <FounderCard name="Sanchit Vijay" title="Founding Partner" linkedIn="https://www.linkedin.com/in/sanchitvijay/" delay={0.14} />
+            <FounderCard name="Shivanshu Birla" title="Founding Partner" image="/images/shivanshu.jpg" linkedIn="https://www.linkedin.com/in/shivanshubirla/" delay={0} />
+            <FounderCard name="Sanchit Vijay" title="Founding Partner" image="/images/sanchit.jpg" linkedIn="https://www.linkedin.com/in/sanchitvijay/" delay={0.14} />
           </div>
         </div>
       </section>
@@ -318,10 +322,9 @@ export default function MakiaAboutUs() {
           <Reveal delay={0.18}>
             <div className="two-col" style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:"0", border:"0.5px solid rgba(58,95,138,.08)", background:C.white, overflow:"hidden" }}>
               {/* Left — visual panel */}
-              <div className="a-lead-panel" style={{ background:`linear-gradient(145deg,${C.deep} 0%,#0d1635 60%,#162040 100%)`, position:"relative", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"40px 44px", minHeight:"380px" }}>
-                <div style={{ position:"absolute", inset:0, display:"flex", alignItems:"center", justifyContent:"center" }}>
-                  <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"96px", fontWeight:300, color:"rgba(200,168,110,.08)", letterSpacing:"6px" }}>PKV</span>
-                </div>
+              <div className="a-lead-panel" style={{ background:`linear-gradient(145deg,${C.deep} 0%,#0d1635 60%,#162040 100%)`, position:"relative", display:"flex", flexDirection:"column", justifyContent:"flex-end", padding:"40px 44px", minHeight:"380px", overflow:"hidden" }}>
+                <img src="/images/paan.jpg" alt="Pavan Kumar Vijay" style={{ position:"absolute", inset:0, width:"100%", height:"100%", objectFit:"cover", opacity:0.5 }} />
+                <div style={{ position:"absolute", inset:0, background:"linear-gradient(to top, rgba(13,22,53,0.95) 0%, rgba(13,22,53,0.3) 100%)" }} />
                 <div style={{ position:"relative", zIndex:2 }}>
                   <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"26px", fontWeight:300, color:"rgba(255,255,255,.7)", letterSpacing:"1px" }}>Pavan Kumar Vijay</div>
                   <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"11px", letterSpacing:"2.5px", textTransform:"uppercase", color:C.gold, marginTop:"6px", opacity:.75 }}>Head of IC Committee</div>
