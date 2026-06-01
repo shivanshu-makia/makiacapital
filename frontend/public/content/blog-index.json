@@ -7,6 +7,14 @@
     "coverImage": "",
     "category": "Makia Market Pulse",
     "author": "Makia Capital",
+    "type": "Newsletter",
+    "readTime": "8 min",
+    "tags": [
+      "Capital Markets",
+      "FII/DII",
+      "Macro",
+      "IPO"
+    ],
     "published": true,
     "file": "market-pulse-april-2026.md"
   },
@@ -18,6 +26,9 @@
     "coverImage": "/images/blogs/vol-02.jpg",
     "category": "Capital Letters",
     "author": "Shivanshu Birla",
+    "type": "Blog",
+    "readTime": "",
+    "tags": [],
     "published": false,
     "file": "capital-letters-vol-02.md"
   }

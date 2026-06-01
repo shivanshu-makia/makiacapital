@@ -48,19 +48,25 @@ function Card({ post, i }) {
 function BlogCard({ post, i }) {
   const [hov, setHov] = useState(false);
   const nav = useNavigate();
+  const isNewsletter = post.type === "Newsletter" || post.type === "Research";
   return (
     <Fade delay={i * 70}>
       <div data-testid={`blog-card-${post.slug}`} onClick={() => nav(`/insights/${post.slug}`)} onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)}
-        className="i-card-grid" style={{ borderTop: `0.5px solid ${C.line}`, padding: "28px 0", cursor: "pointer", display: "grid", gridTemplateColumns: post.coverImage ? "120px 1fr auto" : "1fr auto", gap: 24, alignItems: "start" }}>
-        {post.coverImage && <div style={{ width: 120, height: 80, background: `url(${post.coverImage}) center/cover no-repeat`, borderRadius: 2, flexShrink: 0 }} />}
+        className="i-card-grid" style={{ borderTop: `0.5px solid ${C.line}`, padding: "28px 0", cursor: "pointer", display: "grid", gridTemplateColumns: "1fr auto", gap: 28, alignItems: "start" }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
-            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 2, textTransform: "uppercase", color: C.steel, borderLeft: `2px solid ${C.steel}`, paddingLeft: 9 }}>{post.category}</span>
-            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light }}>{post.date}</span>
+            <Pill type={post.type || "Blog"} />
+            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light }}>{post.date}{post.readTime ? ` · ${post.readTime} read` : ""}</span>
           </div>
           <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 23, fontWeight: 400, color: hov ? C.gold : C.navy, lineHeight: 1.25, marginBottom: 10, transition: "color .2s", maxWidth: 680 }}>{post.title}</h2>
           <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 13, color: C.light, lineHeight: 1.7, fontWeight: 300, maxWidth: 640 }}>{post.excerpt}</p>
-          <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: C.light, border: `0.5px solid ${C.line}`, padding: "4px 10px", display: "inline-block", marginTop: 10 }}>{post.author}</span>
+          {post.tags && post.tags.length > 0 ? (
+            <div style={{ display: "flex", gap: 7, marginTop: 12, flexWrap: "wrap" }}>
+              {post.tags.map(t => <span key={t} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: C.light, border: `0.5px solid ${C.line}`, padding: "4px 10px" }}>{t}</span>)}
+            </div>
+          ) : (
+            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1, textTransform: "uppercase", color: C.light, border: `0.5px solid ${C.line}`, padding: "4px 10px", display: "inline-block", marginTop: 10 }}>{post.author}</span>
+          )}
         </div>
         <span style={{ color: hov ? C.gold : C.steel, fontFamily: "DM Sans,sans-serif", fontSize: 13, transition: "color .2s", whiteSpace: "nowrap" }}>Read →</span>
       </div>
@@ -166,8 +172,8 @@ function List() {
   }, []);
 
   const richSorted = [...POSTS].sort((a, b) => b.isoDate.localeCompare(a.isoDate));
-  const richShown = tab === "All" || tab !== "Blog" ? (tab === "All" ? richSorted : richSorted.filter(p => p.type === tab)) : [];
-  const blogsShown = tab === "All" || tab === "Blog" ? blogPosts : [];
+  const richShown = tab === "All" ? richSorted : tab === "Blog" ? [] : richSorted.filter(p => p.type === tab);
+  const blogsShown = tab === "All" ? blogPosts : tab === "Blog" ? blogPosts : blogPosts.filter(p => p.type === tab);
 
   // Merge and sort all items by date
   const allItems = [

@@ -31,6 +31,9 @@ function buildBlogIndex() {
       coverImage: data.coverImage || '',
       category: data.category || '',
       author: data.author || '',
+      type: data.type || 'Blog',
+      readTime: data.readTime || '',
+      tags: data.tags || [],
       published: data.published !== false,
       file: file,
     });
