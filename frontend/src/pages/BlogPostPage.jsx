@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { POSTS, GEO_ITEMS, INSIGHTS_COLORS as C, TYPE_COLORS } from "../data/insightsData";
+import { POSTS, GEO_ITEMS, GEO_ITEMS_MAY, INSIGHTS_COLORS as C, TYPE_COLORS } from "../data/insightsData";
 
 function useInView() {
   const ref = useRef(null), [v, setV] = useState(false);
@@ -109,14 +109,16 @@ function DataTable({ heading, headers, rows, note }) {
   );
 }
 
-function GeoGrid() {
+function GeoGrid({ items, title }) {
   const [open, setOpen] = useState(null);
+  const geoItems = items || GEO_ITEMS;
+  const geoTitle = title || "Global & Geopolitical Developments \u2014 March 2026";
   return (
     <div style={{ marginBottom: 44 }}>
-      <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 6, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>Global & Geopolitical Developments — March 2026</h2>
+      <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 6, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>{geoTitle}</h2>
       <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light, marginBottom: 16 }}>Tap any item to expand the India impact.</p>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1, background: C.line }} className="bp-geo-grid">
-        {GEO_ITEMS.map((item, i) => {
+        {geoItems.map((item, i) => {
           const isOpen = open === i;
           return (
             <div key={i} onClick={() => setOpen(isOpen ? null : i)} style={{ background: isOpen ? C.navy : C.white, cursor: "pointer", padding: "16px 18px", transition: "background .2s" }}>
@@ -157,10 +159,14 @@ function PitchBlock() {
   );
 }
 
-function renderBlock(b, i) {
+function renderBlock(b, i, post) {
   switch (b.kind) {
     case "table": return <DataTable key={i} heading={b.heading} headers={b.headers} rows={b.rows} note={b.note} />;
-    case "geo":   return <GeoGrid key={i} />;
+    case "geo": {
+      const geoItems = post?.geoKey === "may" ? GEO_ITEMS_MAY : GEO_ITEMS;
+      const geoTitle = post?.geoKey === "may" ? "Global Pulse: World Events Shaping Markets \u2014 May\u201926" : "Global & Geopolitical Developments \u2014 March 2026";
+      return <GeoGrid key={i} items={geoItems} title={geoTitle} />;
+    }
     case "pitch": return <PitchBlock key={i} />;
     case "case":
     case "text":  return (
@@ -226,7 +232,7 @@ function RichPostDetail({ post }) {
 
       <article data-testid="insight-detail-body" className="bp-detail-body" style={{ background: C.white, padding: "60px 5% 80px" }}>
         <div style={{ maxWidth: 680, margin: "0 auto" }}>
-          {post.body.map((b, i) => renderBlock(b, i))}
+          {post.body.map((b, i) => renderBlock(b, i, post))}
         </div>
       </article>
 
