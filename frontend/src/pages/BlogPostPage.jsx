@@ -81,29 +81,48 @@ const mdComponents = {
 
 /* ── Rich post body renderers (for Newsletter/Research posts) ── */
 function DataTable({ heading, headers, rows, note }) {
+  const [showHint, setShowHint] = useState(true);
+  const scrollRef = useRef(null);
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const check = () => { if (el.scrollLeft > 10) setShowHint(false); };
+    el.addEventListener("scroll", check, { passive: true });
+    // Hide hint if table fits without scroll
+    if (el.scrollWidth <= el.clientWidth) setShowHint(false);
+    return () => el.removeEventListener("scroll", check);
+  }, []);
   return (
     <div style={{ marginBottom: 44 }}>
       {heading && <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 14, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>{heading}</h2>}
-      <div style={{ overflowX: "auto" }}>
-        <table style={{ width: "100%", borderCollapse: "collapse" }}>
-          <thead>
-            <tr style={{ background: C.navy }}>
-              {headers.map(h => <th key={h} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,.7)", padding: "11px 13px", textAlign: "left", fontWeight: 500, whiteSpace: "nowrap" }}>{h}</th>)}
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, ri) => (
-              <tr key={ri} style={{ background: ri % 2 === 0 ? C.white : C.page }}>
-                {row.map((cell, ci) => {
-                  const neg = cell.startsWith("\u2013") || cell.startsWith("-");
-                  const pos = cell.startsWith("+");
-                  return <td key={ci} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 12, color: neg ? "#c0392b" : pos ? "#27ae60" : C.navy, padding: "11px 13px", border: `0.5px solid ${C.line}`, fontWeight: neg || pos ? 500 : 300 }}>{cell}</td>;
-                })}
+      <div style={{ position: "relative" }}>
+        <div ref={scrollRef} style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+          <table style={{ width: "100%", borderCollapse: "collapse", minWidth: headers.length > 5 ? 700 : "auto" }}>
+            <thead>
+              <tr style={{ background: C.navy }}>
+                {headers.map(h => <th key={h} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 10, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(255,255,255,.7)", padding: "11px 13px", textAlign: "left", fontWeight: 500, whiteSpace: "nowrap" }}>{h}</th>)}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {rows.map((row, ri) => (
+                <tr key={ri} style={{ background: ri % 2 === 0 ? C.white : C.page }}>
+                  {row.map((cell, ci) => {
+                    const neg = cell.startsWith("\u2013") || cell.startsWith("-");
+                    const pos = cell.startsWith("+");
+                    return <td key={ci} style={{ fontFamily: "DM Sans,sans-serif", fontSize: 12, color: neg ? "#c0392b" : pos ? "#27ae60" : C.navy, padding: "11px 13px", border: `0.5px solid ${C.line}`, fontWeight: neg || pos ? 500 : 300, whiteSpace: ci === 0 ? "normal" : "nowrap" }}>{cell}</td>;
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {showHint && (
+          <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: 48, background: "linear-gradient(to right, transparent, rgba(15,26,78,0.06))", display: "flex", alignItems: "center", justifyContent: "center", pointerEvents: "none" }}>
+            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 18, color: C.steel, animation: "scrollHint 1.5s ease-in-out infinite" }}>→</span>
+          </div>
+        )}
       </div>
+      <style>{`@keyframes scrollHint{0%,100%{transform:translateX(0);opacity:.4}50%{transform:translateX(6px);opacity:1}}`}</style>
       {note && <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.light, lineHeight: 1.6, marginTop: 8, fontStyle: "italic" }}>{note}</p>}
     </div>
   );
