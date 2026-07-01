@@ -376,7 +376,22 @@ export default function BlogPostPage() {
   const richPost = POSTS.find(p => p.slug === slug);
 
   useEffect(() => {
-    if (richPost) document.title = `${richPost.title} - Makia Capital`;
+    if (richPost) {
+      document.title = `${richPost.title} - Makia Capital`;
+      // Update OG meta tags for link previews (LinkedIn, Twitter, Facebook)
+      const baseUrl = "https://www.makiacapital.com";
+      const setMeta = (prop, content) => {
+        let el = document.querySelector(`meta[property="${prop}"]`) || document.querySelector(`meta[name="${prop}"]`);
+        if (el) el.setAttribute("content", content);
+      };
+      setMeta("og:title", richPost.title);
+      setMeta("og:description", richPost.excerpt);
+      if (richPost.ogImage) setMeta("og:image", baseUrl + richPost.ogImage);
+      setMeta("og:url", baseUrl + "/insights/" + richPost.slug);
+      setMeta("twitter:title", richPost.title);
+      setMeta("twitter:description", richPost.excerpt);
+      if (richPost.ogImage) setMeta("twitter:image", baseUrl + richPost.ogImage);
+    }
   }, [richPost]);
 
   return (

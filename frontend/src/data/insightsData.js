@@ -43,6 +43,7 @@ export const POSTS = [
     id:"mmp-jun26", slug:"market-pulse-june-2026", type:"Newsletter", label:"Makia Market Pulse", date:"30 Jun 2026", isoDate:"2026-06-30", readTime:"10 min",
     title:"Market Pulse \u2014 June 2026: India Reclaims 5th-Largest Market",
     excerpt:"Nifty rose 2.1% to 23,865.8 as India reclaimed the world\u2019s 5th-largest equity market position at $5.04 Tn, surpassing Taiwan. DIIs bought \u20b961,136.8 Cr while FIIs sold \u20b946,979.5 Cr. SpaceX\u2019s $1.75 Tn IPO raised $86 Bn \u2014 the largest in history.",
+    ogImage:"/images/og-june-2026.png",
     tags:["Capital Markets","FII/DII","Macro","IPO","AI"],
     keyStats:[
       {label:"Nifty 50 MTD",value:"+2.1%",sub:"Settled at 23,865.8"},
@@ -82,6 +83,7 @@ export const POSTS = [
     id:"mmp-may26", slug:"market-pulse-may-2026", type:"Newsletter", label:"Makia Market Pulse", date:"31 May 2026", isoDate:"2026-05-31", readTime:"10 min",
     title:"Market Pulse \u2014 May 2026: Broad Retreat as Oil Shock Bites",
     excerpt:"Nifty fell 4.2% to 23,547.8 as INR hit an all-time low of 96.84, FPI outflows crossed \u20b92.06 Lakh Cr YTD, and elevated crude kept the current account under pressure. Globally, the AI economy surged in the opposite direction \u2014 SpaceX, OpenAI, and Anthropic all filed for public markets.",
+    ogImage:"/images/og-may-2026.png",
     tags:["Capital Markets","FII/DII","Macro","IPO","AI"],
     keyStats:[
       {label:"Nifty 50 MTD",value:"\u20134.2%",sub:"Settled at 23,547.8"},
@@ -122,6 +124,7 @@ export const POSTS = [
     id:"mmp-mar26", slug:"market-pulse-march-2026", type:"Newsletter", label:"Makia Market Pulse", date:"30 Mar 2026", isoDate:"2026-03-30", readTime:"8 min",
     title:"Market Pulse \u2014 March 2026: India\u2019s Worst Month in FY26",
     excerpt:"Nifty fell 11.3% (25,178 \u2192 22,331) \u2014 its sharpest monthly decline since Feb \u201922. Brent crossed $110/bbl, the rupee hit near-record lows, and FII outflows reached a FY26 high of \u20b91,11,377 Cr.",
+    ogImage:"/images/og-march-2026.png",
     tags:["Capital Markets","FII/DII","Macro","IPO"],
     keyStats:[
       {label:"Nifty 50 MTD",value:"\u201311.3%",sub:"25,178 \u2192 22,331"},
