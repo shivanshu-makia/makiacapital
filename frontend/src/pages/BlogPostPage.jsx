@@ -147,10 +147,10 @@ function GeoGrid({ items, title }) {
                   <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 12, fontWeight: 500, color: isOpen ? C.white : C.navy, lineHeight: 1.4, marginBottom: isOpen ? 8 : 0 }}>{item.title}</p>
                   {isOpen && <>
                     <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: "rgba(255,255,255,.6)", lineHeight: 1.6, marginBottom: 8, fontWeight: 300 }}>{item.body}</p>
-                    <div style={{ borderTop: "0.5px solid rgba(255,255,255,.15)", paddingTop: 8, display: "flex", gap: 8 }}>
+                    {item.india && <div style={{ borderTop: "0.5px solid rgba(255,255,255,.15)", paddingTop: 8, display: "flex", gap: 8 }}>
                       <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 9, letterSpacing: 2, textTransform: "uppercase", color: C.gold, flexShrink: 0, marginTop: 2 }}>India</span>
                       <p style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: C.gold, lineHeight: 1.5, fontWeight: 300 }}>{item.india}</p>
-                    </div>
+                    </div>}
                   </>}
                 </div>
                 <span style={{ color: isOpen ? "rgba(255,255,255,.4)" : C.light, fontSize: 18, transition: "transform .2s", transform: isOpen ? "rotate(45deg)" : "none" }}>+</span>
