@@ -316,7 +316,7 @@ export default function MakiaAboutUs() {
           <Reveal><Tag number="04" label="Leadership" /></Reveal>
           <Reveal delay={0.1}>
             <h2 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:"42px", fontWeight:300, color:C.navy, lineHeight:1.22, marginBottom:"52px" }}>
-              Backed by<br /><span style={{ fontStyle:"italic", color:C.gold }}>deep institutional roots</span>
+              Mentored by<br /><span style={{ fontStyle:"italic", color:C.gold }}>deep institutional roots</span>
             </h2>
           </Reveal>
           <Reveal delay={0.18}>
@@ -333,7 +333,7 @@ export default function MakiaAboutUs() {
               {/* Right — text panel */}
               <div className="a-lead-pad" style={{ padding:"48px 44px", display:"flex", flexDirection:"column", justifyContent:"center" }}>
                 <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"14px", lineHeight:1.9, color:C.light, fontWeight:300, marginBottom:"22px" }}>
-                  Makia Capital is backed by <strong style={{ color:C.navy, fontWeight:500 }}>Pavan Kumar Vijay</strong>, Founder of Corporate Professionals — a leading institution in corporate advisory and capital markets.
+                  Makia is mentored by <strong style={{ color:C.navy, fontWeight:500 }}>Pavan Kr. Vijay</strong>, Founder of Corporate Professionals — a leading institution in corporate advisory and capital markets.
                 </p>
                 <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:"14px", lineHeight:1.9, color:C.light, fontWeight:300, marginBottom:"22px" }}>
                   With 35+ years of experience across merchant banking, IPOs, capital markets, corporate restructuring, and transaction advisory, he has played a defining role in shaping institutional finance practices in India.
