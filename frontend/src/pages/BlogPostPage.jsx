@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { POSTS, GEO_ITEMS, GEO_ITEMS_MAY, GEO_ITEMS_JUN, INSIGHTS_COLORS as C, TYPE_COLORS } from "../data/insightsData";
+import { POSTS, GEO_ITEMS, GEO_ITEMS_MAY, GEO_ITEMS_JUN, GEO_ITEMS_JUL, INSIGHTS_COLORS as C, TYPE_COLORS } from "../data/insightsData";
 
 function useInView() {
   const ref = useRef(null), [v, setV] = useState(false);
@@ -182,8 +182,8 @@ function renderBlock(b, i, post) {
   switch (b.kind) {
     case "table": return <DataTable key={i} heading={b.heading} headers={b.headers} rows={b.rows} note={b.note} />;
     case "geo": {
-      const geoMap = { may: GEO_ITEMS_MAY, jun: GEO_ITEMS_JUN };
-      const titleMap = { may: "Global Pulse: World Events Shaping Markets \u2014 May\u201926", jun: "Global Pulse: World Events Shaping Markets \u2014 Jun\u201926" };
+      const geoMap = { may: GEO_ITEMS_MAY, jun: GEO_ITEMS_JUN, jul: GEO_ITEMS_JUL };
+      const titleMap = { may: "Global Pulse: World Events Shaping Markets \u2014 May\u201926", jun: "Global Pulse: World Events Shaping Markets \u2014 Jun\u201926", jul: "Global Pulse: World Events Shaping Markets \u2014 Jul\u201926" };
       const geoItems = geoMap[post?.geoKey] || GEO_ITEMS;
       const geoTitle = titleMap[post?.geoKey] || "Global & Geopolitical Developments \u2014 March 2026";
       return <GeoGrid key={i} items={geoItems} title={geoTitle} />;
