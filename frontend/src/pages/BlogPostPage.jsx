@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 import { POSTS, GEO_ITEMS, GEO_ITEMS_MAY, GEO_ITEMS_JUN, GEO_ITEMS_JUL, INSIGHTS_COLORS as C, TYPE_COLORS } from "../data/insightsData";
 
 function useInView() {
@@ -178,9 +179,56 @@ function PitchBlock() {
   );
 }
 
+/* ── Markets in Motion Chart ── */
+function MarketsInMotionChart({ data, series }) {
+  const colors = {
+    "Nifty IT": "#1a1a1a", "Nifty 50": "#daa520", "Nikkei 225": "#999999",
+    "TAIEX": "#5b9bd5", "NASDAQ": "#8b7355", "KOSPI": "#b0b0b0", "SK Hynix": "#1b2858"
+  };
+  const CustomLabel = ({ viewBox, value, name }) => {
+    const { x, y } = viewBox;
+    const pct = series.find(s => s.name === name)?.pct || "";
+    const isNeg = pct.startsWith("\u2013") || pct.startsWith("-");
+    return (
+      <g>
+        <text x={x + 8} y={y - 8} fill={colors[name] || "#333"} fontSize={11} fontFamily="DM Sans,sans-serif" fontWeight={500}>{name},</text>
+        <text x={x + 8 + name.length * 6.5 + 8} y={y - 8} fill={isNeg ? "#c0392b" : "#27ae60"} fontSize={11} fontFamily="DM Sans,sans-serif" fontWeight={600}>{pct}</text>
+      </g>
+    );
+  };
+  return (
+    <div style={{ marginBottom: 44 }}>
+      <h2 style={{ fontFamily: "Cormorant Garamond,serif", fontSize: 22, fontWeight: 400, color: C.navy, marginBottom: 20, paddingBottom: 10, borderBottom: `0.5px solid ${C.line}` }}>Markets in Motion</h2>
+      <div style={{ width: "100%", height: 400 }}>
+        <ResponsiveContainer>
+          <LineChart data={data} margin={{ top: 10, right: 110, left: 0, bottom: 10 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,.06)" />
+            <XAxis dataKey="label" tick={{ fontSize: 10, fontFamily: "DM Sans,sans-serif", fill: "#999" }} tickLine={false} axisLine={{ stroke: "#ddd" }} />
+            <YAxis domain={[45, 130]} tick={{ fontSize: 10, fontFamily: "DM Sans,sans-serif", fill: "#999" }} tickLine={false} axisLine={false} />
+            <Tooltip contentStyle={{ fontFamily: "DM Sans,sans-serif", fontSize: 12, border: `1px solid ${C.line}`, boxShadow: "0 4px 12px rgba(0,0,0,.08)" }} />
+            {series.map(s => (
+              <Line key={s.name} type="monotone" dataKey={s.name} stroke={colors[s.name] || "#333"} strokeWidth={s.name === "Nifty IT" || s.name === "SK Hynix" ? 2.5 : 1.5} dot={false} label={false} />
+            ))}
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "12px 20px", justifyContent: "center", marginTop: 8 }}>
+        {series.map(s => (
+          <div key={s.name} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <div style={{ width: 20, height: 2, background: colors[s.name] || "#333", borderRadius: 1 }} />
+            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, color: "#555" }}>{s.name}</span>
+            <span style={{ fontFamily: "DM Sans,sans-serif", fontSize: 11, fontWeight: 600, color: (s.pct.startsWith("\u2013") || s.pct.startsWith("-")) ? "#c0392b" : "#27ae60" }}>{s.pct}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function renderBlock(b, i, post) {
   switch (b.kind) {
     case "table": return <DataTable key={i} heading={b.heading} headers={b.headers} rows={b.rows} note={b.note} />;
+    case "chart": return <MarketsInMotionChart key={i} data={b.data} series={b.series} />;
     case "geo": {
       const geoMap = { may: GEO_ITEMS_MAY, jun: GEO_ITEMS_JUN, jul: GEO_ITEMS_JUL };
       const titleMap = { may: "Global Pulse: World Events Shaping Markets \u2014 May\u201926", jun: "Global Pulse: World Events Shaping Markets \u2014 Jun\u201926", jul: "Global Pulse: World Events Shaping Markets \u2014 Jul\u201926" };

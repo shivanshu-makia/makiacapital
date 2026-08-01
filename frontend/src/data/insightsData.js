@@ -75,6 +75,25 @@ export const POSTS = [
       { kind:"table", heading:"Regional Market Performance \u2014 July 2026",
         headers:["Index","Performance"],
         rows:[["Nifty IT","+19.1%"],["Nifty 50","+2.1%"],["NASDAQ","+2.6%"],["TAIEX","\u20138.6%"],["Nikkei 225","\u20138.7%"],["KOSPI","\u201320.6%"],["SK Hynix","\u201332.9%"]] },
+      { kind:"chart",
+        series:[
+          {name:"Nifty IT",pct:"+19%"},{name:"Nifty 50",pct:"+2%"},{name:"NASDAQ",pct:"+2.6%"},
+          {name:"Nikkei 225",pct:"\u20138.7%"},{name:"TAIEX",pct:"\u20138.6%"},{name:"KOSPI",pct:"\u201320.6%"},{name:"SK Hynix",pct:"\u201332.9%"}
+        ],
+        data:[
+          {label:"1 Jul","Nifty IT":100,"Nifty 50":100,"Nikkei 225":100,"TAIEX":100,"NASDAQ":100,"KOSPI":100,"SK Hynix":100},
+          {label:"3 Jul","Nifty IT":101,"Nifty 50":100.3,"Nikkei 225":99.5,"TAIEX":99.8,"NASDAQ":100.5,"KOSPI":99,"SK Hynix":97},
+          {label:"7 Jul","Nifty IT":104,"Nifty 50":100.8,"Nikkei 225":98,"TAIEX":98.5,"NASDAQ":101,"KOSPI":97,"SK Hynix":93},
+          {label:"10 Jul","Nifty IT":106,"Nifty 50":101.2,"Nikkei 225":97,"TAIEX":97,"NASDAQ":100.8,"KOSPI":95,"SK Hynix":86},
+          {label:"14 Jul","Nifty IT":110,"Nifty 50":101,"Nikkei 225":96,"TAIEX":96.5,"NASDAQ":100.2,"KOSPI":93,"SK Hynix":81},
+          {label:"17 Jul","Nifty IT":113,"Nifty 50":100.5,"Nikkei 225":95,"TAIEX":95,"NASDAQ":99.8,"KOSPI":91,"SK Hynix":75},
+          {label:"21 Jul","Nifty IT":114,"Nifty 50":101,"Nikkei 225":93,"TAIEX":93,"NASDAQ":100,"KOSPI":85,"SK Hynix":73},
+          {label:"23 Jul","Nifty IT":113,"Nifty 50":100.8,"Nikkei 225":92,"TAIEX":91,"NASDAQ":99.5,"KOSPI":80,"SK Hynix":68},
+          {label:"25 Jul","Nifty IT":117,"Nifty 50":101.5,"Nikkei 225":91,"TAIEX":89,"NASDAQ":100,"KOSPI":72,"SK Hynix":55},
+          {label:"28 Jul","Nifty IT":120,"Nifty 50":101,"Nikkei 225":90.5,"TAIEX":88,"NASDAQ":101,"KOSPI":70,"SK Hynix":52},
+          {label:"31 Jul","Nifty IT":119,"Nifty 50":102,"Nikkei 225":91.3,"TAIEX":91.4,"NASDAQ":102.6,"KOSPI":79.4,"SK Hynix":67.1},
+        ]
+      },
       { kind:"text", heading:"Asia\u2019s Chip Rout: India Stands Apart", text:"South Korea\u2019s KOSPI doubled in H1 2026, peaking on June 19 before SK Hynix overtook Samsung as the country\u2019s most valuable company. The rally ran on leverage, with retail investors piling into single-stock ETFs.\n\nIn late July, reports that China had begun mass-producing its own chipmaking tools, followed by SK Hynix\u2019s blowout earnings still falling short of forecasts, triggered a rout that included Korea\u2019s first-ever back-to-back circuit breakers and a government emergency intervention including a ban on new leveraged ETFs.\n\nThe shock spread unevenly: Taiwan ended July down 8.6%, Japan\u2019s Nikkei down 8.7%, while India stood apart \u2014 Nifty 50 gained 2% and Nifty IT surged 19% as capital rotated out of AI hardware and into Indian IT services." },
       { kind:"table", heading:"IPO Activity \u2014 Mainboard Listings (July 2026)",
         headers:["Company","Sector","IPO Size","Subscription","Issue Price","Price 31 Jul","P/L"],
